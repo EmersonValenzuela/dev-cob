@@ -306,9 +306,6 @@
                                                     <button id="btn_bck" type="submit" class="btn btn-success float-end  btn-rounded text-white">
                                                         <i class=" fas fa-plus"></i> Añadir Antecendete
                                                     </button>
-                                                    <button id="btn_up_bck" type="submit" style="display: none;" class="btn btn-success float-end  btn-rounded text-white">
-                                                        <i class=" fas fa-plus"></i> Modificar Antecendete
-                                                    </button>
                                                     <button id="btn_pre" style="display: none;" type="button" class="btn btn-success float-end  btn-rounded text-white" disabled>
                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                         Cargando...

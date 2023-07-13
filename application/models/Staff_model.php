@@ -136,6 +136,14 @@ class Staff_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_bck($where)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_background');
+        $this->db->where($where);
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function auth_user_login($where)
     {
         $this->db->select('*');

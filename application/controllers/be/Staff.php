@@ -340,6 +340,7 @@ class Staff extends CI_Controller
     {
         $data['row'] = $this->Staff_model->get_staff_row(array('p.user_staff' => $id));
         $data['jobs']  = $this->Staff_model->get_jobs(array('id_personal' => $id));
+        $data['bcks']  = $this->Staff_model->get_bck(array('person_bck' => $id));
         $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
         $data['name'] = $user->name_user;
         $data['lastname'] = $user->lastname_user;

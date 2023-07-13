@@ -43,6 +43,7 @@ $pdf->SetFont('Arial', 'BU', 12);
 $pdf->Ln();
 
 $pdf->Cell(201, 5, utf8_decode('DATOS PERSONALES'), '', 1, '', false);
+$pdf->Ln();
 
 $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.3);
@@ -131,6 +132,7 @@ $pdf->SetFont('Arial', 'BU', 12);
 $pdf->Ln();
 $pdf->Ln();
 $pdf->Cell(201, 5, utf8_decode('DATOS DE SERVICIO'), '', 1, '', false);
+$pdf->Ln();
 
 $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.3);
@@ -212,6 +214,7 @@ $pdf->SetFont('Arial', 'BU', 12);
 $pdf->Ln();
 $pdf->Ln();
 $pdf->Cell(201, 5, utf8_decode('TRES ULTIMOS LUGARES DE TRABAJO'), '', 1, '', false);
+$pdf->Ln();
 
 $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.3);
@@ -242,8 +245,42 @@ foreach ($jobs as $key => $job) :
 endforeach;
 
 $pdf->Ln();
-$pdf->Image($url,  170,262,-90);
+$pdf->Image($url,  170, 262, -90);
+$pdf->AddPage();
+$pdf->SetFont('Arial', 'BU', 12);
+
+$pdf->Cell(201, 5, utf8_decode('TRES ULTIMOS LUGARES DE TRABAJO'), '', 1, '', false);
+$pdf->Ln();
+
+$pdf->SetDrawColor(0, 0, 0);
+$pdf->SetLineWidth(0.3);
+$pdf->SetTextColor(0);
+
+$pdf->SetFillColor(0, 0, 0);
+
+$pdf->SetFont('Arial', 'B', 11);
+
+$pdf->SetFillColor(169, 189, 207);
+$pdf->Cell(35, 7, 'ANTECEDENTE', 'LRTB', 0, 'C', true);
+
+$pdf->Cell(94, 7, 'DESCRIPCION', 'LRTB', 0, 'C', true);
+
+$pdf->Cell(54, 7, 'FECHA DE FIN', 'LRTB', 1, 'C', true);
+
+$pdf->SetFont('Arial', '', 11);
 
 
+foreach ($bcks as $key => $bck) :
+
+    $pdf->Cell(35, 8, utf8_decode(strtoupper($bck->type_bck)), 'LRTB', 0, 'C', false);
+
+    $pdf->Cell(94, 8, $bck->name_bck, 'LRTB', 0, 'C', false);
+    $link = base_url() . 'assets/images/bck_images/'.$bck->doc_bck;
+    $pdf->Cell(54, 8, $bck->doc_bck, 'LRTB', 1, 'C', false,$link);
+    
+
+endforeach;
+
+$pdf->Ln();
 
 $pdf->Output();

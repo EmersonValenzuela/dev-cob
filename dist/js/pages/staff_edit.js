@@ -155,9 +155,7 @@ $(function () {
 				data: "id_bck",
 				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
 					$(nTd).html(
-						"<button type='button' class='btn btn-warning waves-effect waves-light' OnClick='edit_bck(" +
-							oData.id_bck +
-							")'><i class='far fa-edit'></i> </button>&nbsp; <button type='button' class='btn btn-danger waves-effect waves-light' OnClick='delete_bck(" +
+						"<button type='button' class='btn btn-danger waves-effect waves-light' OnClick='delete_bck(" +
 							oData.id_bck +
 							")'><i class='fas fa-trash-alt'></i> </button>"
 					);
