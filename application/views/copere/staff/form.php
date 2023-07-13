@@ -43,32 +43,6 @@
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="tb-i">Nombres <code>*</code></label>
-                                                    <input type="text" class="form-control input_txt" name="n_staff" id="n_staff" placeholder="Ingrese Nombres">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="tb-i">Apellidos <code>*</code></label>
-                                                    <input type="text" class="form-control input_txt" name="ls_staff" id="ls_staff" placeholder="Ingrese Apellidos">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group mb-3">
-                                                    <label for="tb-i">CIP <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" name="cip" id="cip" placeholder="Ingrese CIP">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group mb-3">
-                                                    <label for="tb-i">DNI <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" maxlength="8" name="dni" id="dni" placeholder="Ingrese DNI">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row p-t-20">
-                                            <div class="col-md-4">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">Lugar de Nacimiento <code>*</code></label>
                                                     <input type="text" class="form-control" name="place_birth" id="place_birth" placeholder="Ingrese Lugar de Nacimiento">
@@ -88,12 +62,6 @@
                                             </div>
                                         </div>
                                         <div class="row p-t-20">
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-3">
-                                                    <label for="tb-i">Celular Titular <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" name="cell_holder" id="cell_holder" placeholder="Ingrese Celular Titular">
-                                                </div>
-                                            </div>
                                             <div class="col-md-3">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">Celular de Emergencia </label>
@@ -287,7 +255,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="offset-sm-10 col-md-2">
-                                        <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white" id="btn_send">Guardar Personal</button>
+                                        <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white" id="btn_send">Guardar Datos Adicionales</button>
                                     </div>
                                 </div>
                             </form>

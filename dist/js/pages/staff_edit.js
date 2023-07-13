@@ -1,8 +1,10 @@
 $(function () {
-	let mybase_url = $("#url_base").val();
-	let id = $("#id").val();
-	$("#civil_status, #condition_staff, #group_occup").select2();
-	let grade_staff = $("#grade_staff").select2({
+	let mybase_url = $("#url_base").val(),
+		id = $("#user_staff").val();
+	$("#id_pr").val(id);
+
+	$("#civil_status, #condition_staff, #group_occup,#type_bck ").select2();
+	$("#grade_staff").select2({
 		placeholder: "Buscar Grado",
 		minimumInputLength: 1,
 		ajax: {
@@ -75,31 +77,23 @@ $(function () {
 	})
 		.done((i) => {
 			let row = i.row;
+			$("#n_staff").val(i.name);
+			$("#ls_staff").val(i.lastname);
+			$("#cip").val(i.cip);
+			$("#dni").val(i.dni);
+			$("#cell_holder").val(i.phone);
+
 			row.forEach((row) => {
-				$("#n_staff").val(row.name_staff);
-				$("#ls_staff").val(row.lastname_staff);
-				$("#cip").val(row.cip_staff);
-				$("#dni").val(row.dni_staff);
 				$("#place_birth").val(row.place_staff);
 				$("#date_birth").val(row.birthday_staff);
 				$("#home_address").val(row.address);
-				$("#cell_holder").val(row.cell_holder);
-				$("#civil_status > option[value=" + row.status_staff + "]").attr(
-					"selected",
-					"true"
-				);
+				$("#civil_status").val(row.status_staff).trigger("change");
 				$("#number_children").val(row.sons_staff);
-				$("#condition_staff > option[value=" + row.condition_staff + "]").attr(
-					"selected",
-					"selected"
-				);
+				$("#condition_staff").val(row.condition_staff).trigger("change");
 				$("#date_contracted").val(row.hired_staff);
 				$("#date_named").val(row.named_staff);
 				$("#date_ascent").val(row.ascent_staff);
-				$("#group_occup > option[value=" + row.ocupation_staff + "]").attr(
-					"selected",
-					"selected"
-				);
+				$("#group_occup").val(row.ocupation_staff).trigger("change");
 				$("#position").val(row.position_staff);
 				$("#grade_staff").append(
 					"<option value='" +
@@ -123,6 +117,54 @@ $(function () {
 		.fail((err) => {
 			console.log(err.responseText);
 		});
+
+	$("#data-background").DataTable({
+		order: [[3, "desc"]],
+		paging: false,
+		searching: false,
+		language: {
+			sEmptyTable: "Ningún Antecedente",
+			sZeroRecords: "No se encontraron resultados",
+		},
+		ajax: {
+			method: "POST",
+			url: mybase_url + "be/staff/data_table",
+			data: { id: id },
+		},
+		iDisplayLength: 3,
+		columns: [
+			{
+				data: "type_bck",
+			},
+			{
+				data: "name_bck",
+			},
+			{
+				data: "doc_bck",
+				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(
+						"<a target='_blank' href='assets/images/bck_images/" +
+							oData.doc_bck +
+							"'>" +
+							oData.doc_bck +
+							"</a>"
+					);
+				},
+			},
+			{
+				data: "id_bck",
+				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(
+						"<button type='button' class='btn btn-warning waves-effect waves-light' OnClick='edit_bck(" +
+							oData.id_bck +
+							")'><i class='far fa-edit'></i> </button>&nbsp; <button type='button' class='btn btn-danger waves-effect waves-light' OnClick='delete_bck(" +
+							oData.id_bck +
+							")'><i class='fas fa-trash-alt'></i> </button>"
+					);
+				},
+			},
+		],
+	});
 
 	$("#send_personal").on("submit", (e) => {
 		e.preventDefault();
@@ -157,4 +199,65 @@ $(function () {
 				);
 			});
 	});
+
+	$("#btn_bck").on("click", (e) => {
+		e.preventDefault();
+
+		let f = $(this);
+		var formData = new FormData(document.getElementById("form_bck"));
+		formData.append("dato", "valor");
+		$.ajax({
+			url: mybase_url + "be/staff/up_bck",
+			method: "POST",
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: () => {
+				$("#btn_bck").css("display", "none");
+				$("#btn_pre").css("display", "block");
+			},
+		})
+			.done((a) => {
+				let json = a.data,
+					id = a.up_id;
+				successMsg(
+					"Antecedente Agregado",
+					"Nuevo Antecedente agregado corretamente",
+					"#ff6849",
+					"success"
+				);
+				$("#form_bck")[0].reset();
+				$("#doc_bck").val(null);
+				let table = $("#data-background").DataTable();
+				table.ajax.reload(null, false);
+			})
+			.always(() => {
+				$("#btn_bck").css("display", "block");
+				$("#btn_pre").css("display", "none");
+			})
+			.fail((err) => {
+				console.error(err.responseText);
+			});
+	});
+
 });
+
+function delete_bck(id) {
+	let mybase_url = $("#url_base").val(),
+		table = $("#data-background").DataTable();
+	$.post(mybase_url + "be/staff/delete_bck", { id: id }, "json")
+		.done((i) => {
+			table.ajax.reload(null, false);
+			successMsg(
+				"Antecedente Eliminado",
+				"Antecedente Eliminado corretamente",
+				"#ff6849",
+				"warning"
+			);
+		})
+		.fail((err) => {
+			console.error(err.responseText);
+		});
+}

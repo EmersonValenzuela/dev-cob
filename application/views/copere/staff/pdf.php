@@ -18,6 +18,15 @@ class PDF extends FPDF
     }
 }
 
+$url = 'assets/images/qr/staff' .  $row->user_staff . '.png';
+$url2 = base_url() . 'be/perfil-personal/' . $row->user_staff;
+
+if (!file_exists($url)) {
+
+    qr($url, $url2, $row->user_staff);
+}
+
+
 $pdf =  new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
@@ -46,20 +55,20 @@ $pdf->SetFont('Arial', 'B', 11);
 $pdf->SetFillColor(169, 189, 207);
 $pdf->Cell(20, 7, 'GRADO', 'LRTB', 0, 'C', true);
 
-$pdf->Cell(70, 7, 'APELLIDOS Y NOMBRES', 'LRTB', 0, 'C', true);
+$pdf->Cell(85, 7, 'APELLIDOS Y NOMBRES', 'LRTB', 0, 'C', true);
 
 $pdf->Cell(39, 7, 'CIP', 'LRTB', 0, 'C', true);
 
-$pdf->Cell(54, 7, 'DNI', 'LRTB', 1, 'C', true);
+$pdf->Cell(39, 7, 'DNI', 'LRTB', 1, 'C', true);
 $pdf->SetFont('Arial', '', 11);
 
 $pdf->Cell(20, 8, $row->name_grade_staff, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(70, 8,  strtoupper($row->lastname_staff . " " . $row->name_staff), 'LRTB', 0, 'C', false);
+$pdf->Cell(85, 8,  strtoupper($lastname . " " . $name), 'LRTB', 0, 'C', false);
 
-$pdf->Cell(39, 8, $row->cip_staff, 'LRTB', 0, 'C', false);
+$pdf->Cell(39, 8, $cip, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(54, 8, $row->dni_staff, 'LRTB', 1, 'C', false);
+$pdf->Cell(39, 8, $dni, 'LRTB', 1, 'C', false);
 
 $pdf->Ln();
 
@@ -109,7 +118,7 @@ $pdf->Cell(20, 7, utf8_decode('N° HIJOS'), 'LRTB', 1, 'C', true);
 $pdf->SetFont('Arial', '', 11);
 
 
-$pdf->Cell(54, 8, $row->cell_holder, 'LRTB', 0, 'C', false);
+$pdf->Cell(54, 8, $phone, 'LRTB', 0, 'C', false);
 
 $pdf->Cell(55, 8, $row->emergency_cell, 'LRTB', 0, 'C', false);
 
@@ -157,25 +166,23 @@ $pdf->SetTextColor(0);
 
 $pdf->SetFillColor(0, 0, 0);
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Arial', 'B', 10);
 
 $pdf->SetFillColor(169, 189, 207);
-$pdf->Cell(30, 7, 'GRADO', 'LRTB', 0, 'C', true);
 
 $pdf->Cell(50, 7, 'UNIDAD ORIGEN', 'LRTB', 0, 'C', true);
 
 $pdf->Cell(49, 7, 'GRUPO OCUPACIONAL', 'LRTB', 0, 'C', true);
 
-$pdf->Cell(54, 7, 'ESPECIALIDAD', 'LRTB', 1, 'C', true);
+$pdf->Cell(84, 7, 'ESPECIALIDAD', 'LRTB', 1, 'C', true);
 $pdf->SetFont('Arial', '', 11);
 
-$pdf->Cell(30, 8, $row->name_grade_staff, 'LRTB', 0, 'C', false);
 
 $pdf->Cell(50, 8, $row->name_rol, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(49, 8, $row->ocupation_staff, 'LRTB', 0, 'C', false);
+$pdf->Cell(49, 8, utf8_decode($row->ocupation_staff), 'LRTB', 0, 'C', false);
 
-$pdf->Cell(54, 8, $row->name_specialty, 'LRTB', 1, 'C', false);
+$pdf->Cell(84, 8, $row->name_specialty, 'LRTB', 1, 'C', false);
 $pdf->Ln();
 
 $pdf->SetDrawColor(0, 0, 0);
@@ -226,15 +233,17 @@ $pdf->SetFont('Arial', '', 11);
 
 foreach ($jobs as $key => $job) :
 
-$pdf->Cell(95, 8, utf8_decode(strtoupper($job->name_jobb)), 'LRTB', 0, 'C', false);
+    $pdf->Cell(95, 8, utf8_decode(strtoupper($job->name_jobb)), 'LRTB', 0, 'C', false);
 
-$pdf->Cell(44, 8, $job->start_jobb, 'LRTB', 0, 'C', false);
+    $pdf->Cell(44, 8, $job->start_jobb, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(44, 8, $job->finalized_jobb, 'LRTB', 1, 'C', false);
+    $pdf->Cell(44, 8, $job->finalized_jobb, 'LRTB', 1, 'C', false);
 
 endforeach;
 
 $pdf->Ln();
+$pdf->Image($url,  170,262,-90);
+
 
 
 $pdf->Output();

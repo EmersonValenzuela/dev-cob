@@ -108,7 +108,6 @@ $(function () {
 });
 
 function background(id) {
-	$("#mdl_status").modal("show");
 	$("#id_pr").val(id);
 	$("#data-background").DataTable({
 		order: [[3, "desc"]],

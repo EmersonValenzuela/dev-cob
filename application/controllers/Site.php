@@ -170,6 +170,8 @@ class Site extends CI_Controller
 
 			$data = $this->security->xss_clean($data);
 			$result = $this->Admin_model->insert($data, 'tbl_users');
+			$this->Admin_model->insert(array('user_staff' => $encrypt_cip), 'tbl_staff');
+
 
 			if ($result) {
 				$jsonData['status'] = 1;

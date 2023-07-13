@@ -29,10 +29,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="content-utilities">
-                                    <div class="page-nav">
+                                    <!--<div class="page-nav">
                                         <a href="<?= base_url('be/agregar-personal-civil'); ?>" class="btn btn-primary btn-rounded waves-effect waves-light"><i class="fas fa-plus"></i> Agregar Personal Civil</a>
                                     </div>
-                                    <br>
+                                    <br>-->
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive m-t-40">
@@ -51,20 +51,21 @@
                                             </thead>
                                             <tbody id="tbody">
                                                 <?php
+                                                $c = 1;
                                                 foreach ($rows as $key => $row) {
                                                 ?>
                                                     <tr>
-                                                        <th><?= $row->id_staff ?></th>
-                                                        <th><?= $row->lastname_staff . " " . $row->name_staff ?></th>
-                                                        <th><?= $row->cip_staff ?></th>
-                                                        <th><?= $row->dni_staff ?></th>
+                                                        <th><?= $c++; ?></th>
+                                                        <th><?= $row->lastname_user . " " . $row->name_user ?></th>
+                                                        <th><?= $this->encryption->decrypt($row->cip_user) ?></th>
+                                                        <th><?= $this->encryption->decrypt($row->dni_user) ?></th>
                                                         <th><?= $row->name_rol ?></th>
                                                         <th><?= $row->name_grade_staff ?></th>
                                                         <th><?= $row->name_specialty ?></th>
                                                         <th>
-                                                            <a onclick="background(<?= $row->id_staff ?>)" target="_blank" class="btn btn-primary waves-effect waves-light" type="button" title="Mostrar PDF"><i class="fas fa-notes-medical"></i> </a>
-                                                            <a href="<?= base_url('be/editar-personal-civil/' . $row->id_staff); ?>" target="_blank" class="btn btn-warning waves-effect waves-light" type="button" title="Mostrar PDF"><i class="far fa-edit"></i> </a>&nbsp;
-                                                            <a href="<?= base_url('be/perfil-personal/'.$row->id_staff ); ?>" target="_blank" class="btn btn-danger waves-effect waves-light" type="button" title="Mostrar PDF"><i class="fas fa-file-pdf"></i> </a>
+                                                            <a onclick="background(<?= $row->id_user ?>)" target="_blank" class="btn btn-primary waves-effect waves-light" type="button" title="Mostrar PDF"><i class="fas fa-notes-medical"></i> </a>
+                                                            <a href="<?= base_url('be/editar-personal-civil/' . $row->id_user); ?>" target="_blank" class="btn btn-warning waves-effect waves-light" type="button" title="Mostrar PDF"><i class="far fa-edit"></i> </a>&nbsp;
+                                                            <a href="<?= base_url('be/perfil-personal/' . $row->id_user); ?>" target="_blank" class="btn btn-danger waves-effect waves-light" type="button" title="Mostrar PDF"><i class="fas fa-file-pdf"></i> </a>
                                                         </th>
                                                     </tr>
                                                 <?php
@@ -111,17 +112,17 @@
                                         <input type="text" class="form-control" name="name_bck" id="name_bck" placeholder="Ingrese Descripción">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group mb-2">
-                                        <label for="tb-i">Selecciona documento<code>*</code>
-                                        </label>
-                                        <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
-                                            <span class="sp_file"><i class="fas fa-upload"></i> Cargar Documento</span>
-                                            <input type="file" class="upload" name="doc_bck" id="doc_bck">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-2">
+                                            <label for="tb-i">Selecciona documento<code>*</code>
+                                            </label>
+                                            <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
+                                                <span class="sp_file"><i class="fas fa-upload"></i> Cargar Documento</span>
+                                                <input type="file" class="upload" name="doc_bck" id="doc_bck">
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="col-md-12 text-left">
                                     <div class="form-group mb-3">
                                         <div class="col-xs-12">

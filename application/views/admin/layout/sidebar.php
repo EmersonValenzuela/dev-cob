@@ -54,14 +54,11 @@
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
-
                         <?php if ($this->session->userdata('is_user_login') == "1") {
-
                         ?>
                             <li class="nav-item">
                                 <a class="nav-link waves-effect waves-dark" href="<?= base_url('be/admin'); ?>" aria-expanded="false" title="Cambiar Modo de Servicio"> <i class=" fas fa-sync-alt text-dark"></i>
                                 </a>
-
                             </li>
                         <?php
                         }

@@ -169,16 +169,32 @@
 
                             </li>
                         <?php }
-
-                        if (check_user() == true) {
                         ?>
-                            <li>
-                                <a class="waves-effect waves-dark" href="<?= base_url('be/mi-equipo'); ?>" aria-expanded="false">
-                                    <i class="fas fa-users"></i>
-                                    <span class="hide-menu">Mi Equipo</span>
-                                </a>
-                            </li>
-                        <?php } ?>
+
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="hide-menu">Mi Usuario</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <?php
+                                if (check_user() == true) {
+                                ?>
+                                    <li>
+                                        <a class="waves-effect waves-dark" href="<?= base_url('be/mi-equipo'); ?>" aria-expanded="false">
+                                            <i class="fas fa-users"></i>
+                                            <span class="hide-menu">Mi Equipo</span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('be/editar-personal-civil/'.$this->session->userdata('user_id')); ?>">
+                                        <i class="fas fa-id-badge"></i>
+                                        &nbsp; Datos Adicionales
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                 <i class="fas fa-clipboard-list"></i>
@@ -217,12 +233,6 @@
                                 <span class="hide-menu">Personal Civil</span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/agregar-personal-civil'); ?>" aria-expanded="false">
-                                        <i class="fab fa-wpforms"></i>
-                                        <span class="hide-menu">Formulario Registro Civil</span>
-                                    </a>
-                                </li>
                                 <li>
                                     <a class="waves-effect waves-dark" href="<?= base_url('be/lista-personal-civil'); ?>" aria-expanded="false">
                                         <i class="fas fa-list-alt"></i>

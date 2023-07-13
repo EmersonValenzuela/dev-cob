@@ -31,15 +31,14 @@
                     <div class="card-body">
                         <div class="content-panel">
                             <form id="send_personal">
-                                <input type="hidden" value="<?= $id ?>" id="id_staff">
-                                <div class="card" id="data_fam">
+                                <input type="hidden" value="<?= $id ?>" id="user_staff" name="user_staff">
+                                <div class="card" id="">
                                     <div class="card-header text-white bg-info">
                                         <b>Datos Personales</b>
                                         <div class="card-actions">
                                             <a class="text-white" data-action="collapse"><i class="ti-minus"></i></a>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="id" value="<?= $id ?>">
                                     <div class="card-body collapse show" id="frwd_form">
                                         <h3 class="card-title">Datos Personales </h3>
                                         <hr>
@@ -47,25 +46,25 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="tb-i">Nombres <code>*</code></label>
-                                                    <input type="text" class="form-control input_txt" name="n_staff" id="n_staff" placeholder="Ingrese Nombres">
+                                                    <input type="text" class="form-control input_txt" name="n_staff" id="n_staff" placeholder="Ingrese Nombres" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">Apellidos <code>*</code></label>
-                                                    <input type="text" class="form-control input_txt" name="ls_staff" id="ls_staff" placeholder="Ingrese Apellidos">
+                                                    <input type="text" class="form-control input_txt" name="ls_staff" id="ls_staff" placeholder="Ingrese Apellidos" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">CIP <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" name="cip" id="cip" placeholder="Ingrese CIP">
+                                                    <input type="text" class="form-control input_numb" name="cip" id="cip" placeholder="Ingrese CIP" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">DNI <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" maxlength="8" name="dni" id="dni" placeholder="Ingrese DNI">
+                                                    <input type="text" class="form-control input_numb" maxlength="8" name="dni" id="dni" placeholder="Ingrese DNI" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +93,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">Celular Titular <code>*</code></label>
-                                                    <input type="text" class="form-control input_numb" name="cell_holder" id="cell_holder" placeholder="Ingrese Celular Titular">
+                                                    <input type="text" class="form-control input_numb" name="cell_holder" id="cell_holder" placeholder="Ingrese Celular Titular" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -128,7 +127,7 @@
 
                                     </div>
                                 </div>
-                                <div class="card" id="data_fam">
+                                <div class="card" id="">
                                     <div class="card-header text-white bg-info">
                                         <b>Datos de Servicio</b>
                                         <div class="card-actions">
@@ -224,7 +223,7 @@
                                         <h3 class="card-title">Lugares donde Trabajó </h3>
                                         <hr>
                                         <?php
-                                        foreach ($jobs as $key => $job) {
+                                        foreach ($jobs as $key => $job) :
                                         ?>
                                             <input type="hidden" name="id_jobbs[]" value="<?= $job->id_jobb ?>">
                                             <div class="row p-t-20">
@@ -247,13 +246,91 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php  } ?>
+                                        <?php endforeach; ?>
 
                                     </div>
+                                    <div class="row">
+                                        <div class="offset-sm-10 col-md-2">
+                                            <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white" id="btn_send">Guardar Personal</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="offset-sm-10 col-md-2">
-                                        <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white" id="btn_send">Guardar Personal</button>
+                            </form>
+                            <form id="form_bck" enctype="multipart/form-data">
+                                <input type="hidden" id="id_pr" name="id_pr">
+                                <input type="hidden" id="id_bck" name="id_bck">
+                                <div class="card" id="">
+                                    <div class="card-header text-white bg-info">
+                                        <b>Datos de Antecedentes</b>
+                                        <div class="card-actions">
+                                            <a class="text-white" data-action="collapse"><i class="ti-minus"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body collapse show" id="frwd_form">
+                                        <h3 class="card-title">Antecedentes</h3>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-3">
+
+                                                    <label for="condition_staff">Tipo de Antecedente</label>
+                                                    <select id="type_bck" name="type_bck" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                        <option value="MEDICO">MEDICO</option>
+                                                        <option value="SANCION">SANCION</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="form-group mb-3">
+                                                    <label for="tb-i">Ingresa Descripción :</label>
+                                                    <input type="text" class="form-control" placeholder="Descripción del Antecedente" id="name_bck" name="name_bck">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group mb-2">
+                                                    <label for="tb-i">Selecciona documento<code>*</code>
+                                                    </label>
+                                                    <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
+                                                        <span class="sp_file"><i class="fas fa-upload"></i> Cargar archivo</span>
+                                                        <input type="file" class="upload" name="doc_bck" id="doc_bck">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20 text-right">
+                                            <div class="col-md-9">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <button id="btn_bck" type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                                        <i class=" fas fa-plus"></i> Añadir Antecendete
+                                                    </button>
+                                                    <button id="btn_up_bck" type="submit" style="display: none;" class="btn btn-success float-end  btn-rounded text-white">
+                                                        <i class=" fas fa-plus"></i> Modificar Antecendete
+                                                    </button>
+                                                    <button id="btn_pre" style="display: none;" type="button" class="btn btn-success float-end  btn-rounded text-white" disabled>
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        Cargando...
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive m-t-40">
+                                            <table id="data-background" class="nowrap table table-striped border" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de Antecedente</th>
+                                                        <th>Descripción</th>
+                                                        <th>Url Archivo</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

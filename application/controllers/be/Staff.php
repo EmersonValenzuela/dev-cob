@@ -17,9 +17,9 @@ class Staff extends CI_Controller
             '<script src="' . base_url() . 'dist/js/pages/staff_list.js"></script>'
         );
 
-        $data['rows'] = $this->Staff_model->get_staff();
+        $data['rows'] = $this->Staff_model->get_users(array('ran.id_range' => 22));
 
-        $data['title'] = 'Agregar Personal';
+        $data['title'] = 'Lista Personal';
         $this->template->load('be/template', 'copere/staff/index', $data);
     }
 
@@ -264,7 +264,15 @@ class Staff extends CI_Controller
             '<script src="' . base_url() . 'dist/js/pages/staff_edit.js"></script>'
 
         );
+        $row = $this->Staff_model->auth_staff(array('user_staff' => $id));
+        if ($row == false) :
+            $this->Staff_model->insert(array('user_staff' => $id), 'tbl_staff');
+            for ($i = 0; $i < 3; $i++) :
+                $this->Staff_model->insert(array('id_personal' => $id), 'tbl_staff_jobs');
+            endfor;
+        endif;
         $rows = $this->Staff_model->get_jobs(array('id_personal' => $id));
+
         $data['jobs'] = $rows;
         $data['id'] = $id;
         $data['title'] = 'Editar Personal';
@@ -273,28 +281,30 @@ class Staff extends CI_Controller
     public function data_personal()
     {
         $id = $this->input->post('id');
-        $row = $this->Staff_model->get_staff(array('p.id_staff' => $id));
+        $row = $this->Staff_model->get_users(array('user.id_user' => $id));
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+
         $jsonData['row'] = $row;
+        $jsonData['name'] = $user->name_user;
+        $jsonData['lastname'] = $user->lastname_user;
+        $jsonData['dni'] = $this->encryption->decrypt($user->cip_user);
+        $jsonData['cip'] = $this->encryption->decrypt($user->dni_user);
+        $jsonData['phone'] = $user->phone_user;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }
     public function gp_personal()
     {
-        $id = $this->input->post('id_staff');
+        $id = $this->input->post('user_staff');
         $workplace = $this->input->post('workplace');
         $start_date = $this->input->post('start_date');
         $finish_date = $this->input->post('finish_date');
         $id_jobb = $this->input->post('id_jobbs');
 
         $data = array(
-            'name_staff' => $this->input->post('n_staff'),
-            'lastname_staff' => $this->input->post('ls_staff'),
-            'cip_staff' => $this->input->post('cip'),
-            'dni_staff' => $this->input->post('dni'),
             'place_staff' => $this->input->post('place_birth'),
             'birthday_staff' => $this->input->post('date_birth'),
             'address' => $this->input->post('home_address'),
-            'cell_holder' => $this->input->post('cell_holder'),
             'emergency_cell' => $this->input->post('emergency_cell'),
             'status_staff' => $this->input->post('civil_status'),
             'sons_staff' => $this->input->post('number_children'),
@@ -309,7 +319,7 @@ class Staff extends CI_Controller
             'position_staff' => $this->input->post('position')
         );
 
-        $lsat_id = $this->Staff_model->update($data, 'tbl_staff',$id);
+        $lsat_id = $this->Staff_model->update($data, 'tbl_staff', array('user_staff' => $id));
 
         for ($i = 0; $i < count($workplace); $i++) {
             $jobbs = array(
@@ -328,8 +338,15 @@ class Staff extends CI_Controller
     }
     public function single_personal($id)
     {
-        $data['row'] = $this->Staff_model->get_staff_row(array('p.id_staff' => $id));
+        $data['row'] = $this->Staff_model->get_staff_row(array('p.user_staff' => $id));
         $data['jobs']  = $this->Staff_model->get_jobs(array('id_personal' => $id));
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+        $data['name'] = $user->name_user;
+        $data['lastname'] = $user->lastname_user;
+        $data['dni'] = $this->encryption->decrypt($user->cip_user);
+        $data['cip'] = $this->encryption->decrypt($user->dni_user);
+        $data['phone'] = $user->phone_user;
+
         $this->load->view('copere/staff/pdf', $data);
     }
 }
