@@ -103,7 +103,7 @@ $(function () {
 						"</option>"
 				);
 				$("#unit_staff").append(
-					"<option value='" + row.unit_staff + "'>" + row.name_rol + "</option>"
+					"<option value='" + row.rol + "'>" + row.name_rol + "</option>"
 				);
 				$("#speciality").append(
 					"<option value='" +
@@ -176,6 +176,7 @@ $(function () {
 		})
 			.done((i) => {
 				console.log(i.last);
+				console.log(i.rol);
 				successMsg(
 					"Personal Civil Editado",
 					"Personal civil editado corretamente",
@@ -239,7 +240,6 @@ $(function () {
 				console.error(err.responseText);
 			});
 	});
-
 });
 
 function delete_bck(id) {

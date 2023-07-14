@@ -9,6 +9,7 @@ class Staff extends CI_Controller
         parent::__construct();
         check_login_user();
         $this->load->model('Staff_model');
+        $this->load->model('Team_model');
     }
     public function index()
     {
@@ -86,7 +87,6 @@ class Staff extends CI_Controller
             );
             $this->Staff_model->insert($jobbs, 'tbl_staff_jobs');
         }
-
         $jsonData['data'] = $data;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
@@ -300,6 +300,27 @@ class Staff extends CI_Controller
         $start_date = $this->input->post('start_date');
         $finish_date = $this->input->post('finish_date');
         $id_jobb = $this->input->post('id_jobbs');
+
+
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+        $rol = $this->Team_model->get_data(array('id_rol' => $this->input->post('unit_staff')));
+
+        if ($user->rol != '2') :
+            $ro2 = $this->Team_model->get_data(array('id_rol' => $user->rol));
+            $array_c = json_decode($ro2->array_int);
+            $result = array_diff($array_c, array($id));
+            $this->Team_model->update(array('array_int' => json_encode($result)), array("id_rol" => $user->rol), 'tbl_rol');
+
+        endif;
+        $arry = json_decode($rol->array_int);
+        $arry[] =  $id;
+        $data1 = array(
+            'array_int' => json_encode($arry)
+        );
+        $this->Team_model->update($data1, array("id_rol" => $this->input->post('unit_staff')), 'tbl_rol');
+        $this->Staff_model->update(array('rol' => $this->input->post('unit_staff')), 'tbl_users', array('id_user' => $id));
+
+
 
         $data = array(
             'place_staff' => $this->input->post('place_birth'),
