@@ -202,18 +202,6 @@
                             </a>
                             <ul aria-expanded="false" class="collapse">
                                 <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/ordenes-de-servicio'); ?>">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        &nbsp; Ordenes de Servicio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/inspeciones-tecnicas'); ?>">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        &nbsp; Informes Técnicos
-                                    </a>
-                                </li>
-                                <li>
                                     <a class="waves-effect waves-dark" href="<?= base_url('be/correspondecias-recibidas'); ?>">
                                         <i class="fas fa-clipboard"></i>
                                         &nbsp; Recibidos
