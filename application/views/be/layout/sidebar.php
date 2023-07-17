@@ -229,8 +229,28 @@
                         </li>
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="fas fa-warehouse"></i>
+                                <span class="hide-menu">SOPORTE DETEL</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('be/ordenes-de-servicio'); ?>">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        &nbsp; Ordenes de Servicio
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('be/inspeciones-tecnicas'); ?>">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        &nbsp; Informes Técnicos
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                 <i class="fas fa-users"></i>
-                                <span class="hide-menu">Personal Civil</span>
+                                <span class="hide-menu">DATOS DEPER</span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
                                 <li>
