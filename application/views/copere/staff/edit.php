@@ -1,3 +1,7 @@
+<?php
+$session_id = $this->session->userdata('user_id');
+?>
+
 <div class="page-wrapper">
     <!-- ============================================================== -->
     <!-- Container fluid  -->
@@ -175,10 +179,15 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <?php if (department_boss($session_id, 'DEPER')) :
+                                                $disabled = '';
+                                            else :
+                                                $disabled = 'disabled';
+                                            endif; ?>
                                             <div class="col-md-3">
                                                 <div class="form-group mb-3">
                                                     <label for="unit_staff">Unidad Origen</label>
-                                                    <select id="unit_staff" name="unit_staff" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                    <select id="unit_staff" name="unit_staff" class="form-control form-select" <?= $disabled  ?> style="width: 100%; height:36px;position:fixed">
                                                     </select>
                                                 </div>
                                             </div>
@@ -209,7 +218,23 @@
                                                     <input type="text" class="form-control" name="position" id="position" placeholder="Ingrese Puesto">
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="current_situation">Situación Actual</label>
+                                                    <select id="current_situation" name="current_situation" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                        <option value="Activo">Activo</option>
+                                                        <option value="Licencia">Licencia</option>
+                                                        <option value="Descanso Medico">Descanso Medico</option>
+                                                        <option value="Hospitalización">Hospitalización</option>
+                                                        <option value="Vacaciones">Vacaciones</option>
+                                                        <option value="Suspendido">Suspendido</option>
+                                                        <option value="Retiro">Retiro</option>
+                                                        <option value="Transito Cambio">Transito Cambio</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="card" id="">
@@ -267,23 +292,22 @@
                                         </div>
                                     </div>
                                     <div class="card-body collapse show" id="frwd_form">
-                                        <h3 class="card-title">Antecedentes</h3>
+                                        <h3 class="card-title">Antecedentes Medicos</h3>
                                         <hr>
                                         <div class="row p-t-20">
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-3">
-
-                                                    <label for="condition_staff">Tipo de Antecedente</label>
-                                                    <select id="type_bck" name="type_bck" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
-                                                        <option value="MEDICO">MEDICO</option>
-                                                        <option value="SANCION">SANCION</option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                             <div class="col-md-7">
                                                 <div class="form-group mb-3">
                                                     <label for="tb-i">Ingresa Descripción :</label>
                                                     <input type="text" class="form-control" placeholder="Descripción del Antecedente" id="name_bck" name="name_bck">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="">Fecha</label>
+                                                    <input type="date" class="form-control" name="date_bck" id="date_bck">
+                                                    <select id="type_bck" name="type_bck" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                        <option selected value="MEDICO">MEDICO</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -317,13 +341,12 @@
                                             <table id="data-background" class="nowrap table table-striped border" cellspacing="0" width="100%">
                                                 <thead>
                                                     <tr>
-                                                        <th>Tipo de Antecedente</th>
+                                                        <th>Fecha Antecedente</th>
                                                         <th>Descripción</th>
                                                         <th>Url Archivo</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
                                                 </tbody>
                                             </table>
@@ -331,6 +354,81 @@
                                     </div>
                                 </div>
                             </form>
+                            <?php if (department_boss($session_id, 'DEPER')) :
+                            ?>
+                                <form id="form_dsc" enctype="multipart/form-data">
+                                    <input type="hidden" id="id_prs" name="id_prs">
+                                    <input type="hidden" id="id_dsc" name="id_dsc">
+                                    <div class="card" id="">
+                                        <div class="card-header text-white bg-info">
+                                            <b>Datos de Antecedentes</b>
+                                            <div class="card-actions">
+                                                <a class="text-white" data-action="collapse"><i class="ti-minus"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body collapse show">
+                                            <h3 class="card-title">Antecedentes Disciplinarios</h3>
+                                            <hr>
+                                            <div class="row p-t-20">
+                                                <div class="col-md-7">
+                                                    <div class="form-group mb-3">
+                                                        <label for="">Ingresa Descripción :</label>
+                                                        <input type="text" class="form-control" placeholder="Descripción del Antecedente" id="name_dsc" name="name_dsc">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-3">
+                                                        <label for="">Fecha</label>
+                                                        <input type="date" class="form-control" name="date_dsc" id="date_dsc">
+                                                        <select id="type_dsc" name="type_dsc" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                            <option selected value="DISCIPLINARIO">DISCIPLINARIO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group mb-2">
+                                                        <label for="">Selecciona documento<code>*</code>
+                                                        </label>
+                                                        <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
+                                                            <span class="sp_file"><i class="fas fa-upload"></i> Cargar archivo</span>
+                                                            <input type="file" class="upload" name="doc_dsc" id="doc_dsc">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row p-t-20 text-right">
+                                                <div class="col-md-9">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-2">
+                                                        <button id="btn_dsc" type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                                            <i class=" fas fa-plus"></i> Añadir Antecendete
+                                                        </button>
+                                                        <button id="btn_predsc" style="display: none;" type="button" class="btn btn-success float-end  btn-rounded text-white" disabled>
+                                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                            Cargando...
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive m-t-40">
+                                                <table id="data-disciplinary" class="nowrap table table-striped border" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo de Antecedente</th>
+                                                            <th>Descripción</th>
+                                                            <th>Url Archivo</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php endif;  ?>
                         </div>
                     </div>
                 </div>

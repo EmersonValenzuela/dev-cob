@@ -198,7 +198,8 @@ $pdf->SetFont('Arial', 'B', 11);
 $pdf->SetFillColor(169, 189, 207);
 $pdf->Cell(60, 7, 'PUESTO', 'LRTB', 0, 'C', true);
 
-$pdf->Cell(55, 7, 'TIEMPO DE SERVICIO', 'LRTB', 1, 'C', true);
+$pdf->Cell(55, 7, 'TIEMPO DE SERVICIO', 'LRTB', 0, 'C', true);
+$pdf->Cell(55, 7, 'SITUACION ACTUAL', 'LRTB', 1, 'C', true);
 $hired_init = new DateTime($row->hired_staff);
 $actually = new DateTime(date("Y-m-d"));
 $days = $hired_init->diff($actually);
@@ -207,7 +208,9 @@ $pdf->SetFont('Arial', '', 11);
 
 $pdf->Cell(60, 8,  strtoupper($row->position_staff), 'LRTB', 0, 'C', false);
 
-$pdf->Cell(55, 8, $days->days, 'LRTB', 1, 'C', false);
+$pdf->Cell(55, 8, $days->days, 'LRTB', 0, 'C', false);
+
+$pdf->Cell(55, 8, strtoupper($row->current_situation), 'LRTB', 1, 'C', false);
 
 $pdf->SetFont('Arial', 'BU', 12);
 
@@ -271,13 +274,13 @@ $pdf->SetFont('Arial', '', 11);
 
 
 foreach ($bcks as $key => $bck) :
-    if($bck->type_bck == 'MEDICO'):
+    if ($bck->type_bck == 'MEDICO') :
 
-    $pdf->Cell(35, 8, utf8_decode(strtoupper($bck->type_bck)), 'LRTB', 0, 'C', false);
+        $pdf->Cell(35, 8, utf8_decode(strtoupper($bck->type_bck)), 'LRTB', 0, 'C', false);
 
-    $pdf->Cell(94, 8, $bck->name_bck, 'LRTB', 0, 'C', false);
-    $link = base_url() . 'assets/images/bck_images/'.$bck->doc_bck;
-    $pdf->Cell(54, 8, $bck->doc_bck, 'LRTB', 1, 'C', false,$link);
+        $pdf->Cell(94, 8, $bck->name_bck, 'LRTB', 0, 'C', false);
+        $link = base_url() . 'assets/images/bck_images/' . $bck->doc_bck;
+        $pdf->Cell(54, 8, $bck->doc_bck, 'LRTB', 1, 'C', false, $link);
     endif;
 
 endforeach;
@@ -286,7 +289,7 @@ $pdf->Ln();
 
 $pdf->SetFont('Arial', 'BU', 12);
 
-$pdf->Cell(201, 5, utf8_decode('ANTECEDENTES DE SANCION'), '', 1, '', false);
+$pdf->Cell(201, 5, utf8_decode('ANTECEDENTES DISCIPLINARIOS'), '', 1, '', false);
 $pdf->Ln();
 $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.3);
@@ -305,13 +308,13 @@ $pdf->Cell(54, 7, 'ENLACE DE DOC.', 'LRTB', 1, 'C', true);
 
 $pdf->SetFont('Arial', '', 11);
 foreach ($bcks as $key => $bck) :
-    if($bck->type_bck == 'SANCION'):
+    if ($bck->type_bck == 'DISCIPLINARIO') :
 
-    $pdf->Cell(35, 8, utf8_decode(strtoupper($bck->type_bck)), 'LRTB', 0, 'C', false);
+        $pdf->Cell(35, 8, utf8_decode(strtoupper($bck->type_bck)), 'LRTB', 0, 'C', false);
 
-    $pdf->Cell(94, 8, $bck->name_bck, 'LRTB', 0, 'C', false);
-    $link = base_url() . 'assets/images/bck_images/'.$bck->doc_bck;
-    $pdf->Cell(54, 8, $bck->doc_bck, 'LRTB', 1, 'C', false,$link);
+        $pdf->Cell(94, 8, $bck->name_bck, 'LRTB', 0, 'C', false);
+        $link = base_url() . 'assets/images/bck_images/' . $bck->doc_bck;
+        $pdf->Cell(54, 8, $bck->doc_bck, 'LRTB', 1, 'C', false, $link);
     endif;
 
 endforeach;
@@ -319,4 +322,3 @@ endforeach;
 $pdf->Ln();
 
 $pdf->Output();
-?>

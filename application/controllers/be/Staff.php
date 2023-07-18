@@ -95,7 +95,21 @@ class Staff extends CI_Controller
     public function data_table()
     {
         $id = $this->input->post('id');
-        $result = $this->Staff_model->get_data_table('tbl_background', array('person_bck' => $id));
+        $result = $this->Staff_model->get_data_table('tbl_background', array('person_bck' => $id), array('type_bck' => 'MEDICO'));
+        if ($result) {
+            foreach ($result as $row) {
+                $array['data'][] = $row;
+            }
+        } else {
+            $array['data'] = array();
+        }
+
+        echo json_encode($array);
+    }
+    public function data_table_in()
+    {
+        $id = $this->input->post('id');
+        $result = $this->Staff_model->get_data_table('tbl_background', array('person_bck' => $id), array('type_bck' => 'DISCIPLINARIO'));
         if ($result) {
             foreach ($result as $row) {
                 $array['data'][] = $row;
@@ -126,6 +140,7 @@ class Staff extends CI_Controller
             $data = array(
                 'type_bck' => $this->input->post('type_bck'),
                 'name_bck' => $this->input->post('name_bck'),
+                'date_bck' => $this->input->post('date_bck'),
                 'doc_bck' => $name,
                 'person_bck' => $this->input->post('id_pr'),
             );
@@ -140,8 +155,8 @@ class Staff extends CI_Controller
     public function update_bck()
     {
 
-        if ($_FILES['doc_bck']['name']) {
-            $name = date('dmYhis') . '_' . rand(0, 99999) . "." . pathinfo($_FILES['doc_bck']['name'], PATHINFO_EXTENSION);
+        if ($_FILES['doc_dsc']['name']) {
+            $name = date('dmYhis') . '_' . rand(0, 99999) . "." . pathinfo($_FILES['doc_dsc']['name'], PATHINFO_EXTENSION);
             $config['upload_path'] = 'assets/images/bck_images/';
             $config['allowed_types'] = '*';
 
@@ -149,30 +164,23 @@ class Staff extends CI_Controller
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
-            if (!$this->upload->do_upload('doc_bck')) {
+            if (!$this->upload->do_upload('doc_dsc')) {
                 $error = array('error' => $this->upload->display_errors());
 
                 var_dump($error) . "<br>";
             }
 
             $data = array(
-                'type_bck' => $this->input->post('type_bck'),
-                'name_bck' => $this->input->post('name_bck'),
-                'doc_bck' => $name
+                'type_bck' => $this->input->post('type_dsc'),
+                'name_bck' => $this->input->post('name_dsc'),
+                'date_bck' => $this->input->post('date_dsc'),
+                'doc_bck' => $name,
+                'person_bck' => $this->input->post('id_prs'),
             );
-            $this->Staff_model->update($data, 'tbl_background', array('id_bck' => $this->input->post('id_bck')));
+            $last_id = $this->Staff_model->insert($data, 'tbl_background');
 
             $jsonData['data'] = $data;
-            header('Content-type: application/json; charset=utf-8');
-            echo json_encode($jsonData);
-        } else {
-            $data = array(
-                'type_bck' => $this->input->post('type_bck'),
-                'name_bck' => $this->input->post('name_bck'),
-                'person_bck' => $this->input->post('id_pr'),
-            );
-            $this->Staff_model->update($data, 'tbl_background', array('id_bck' => $this->input->post('id_bck')));
-            $jsonData['data'] = $data;
+            $jsonData['up_id'] = $last_id;
             header('Content-type: application/json; charset=utf-8');
             echo json_encode($jsonData);
         }
@@ -234,7 +242,7 @@ class Staff extends CI_Controller
     public function delete_bck()
     {
         $id = $this->input->post('id');
-        $row = $this->Staff_model->get_data_table('tbl_background', array('id_bck' => $id), 'row');
+        $row = $this->Staff_model->get_data_table('tbl_background', array('id_bck' => $id), null, 'row');
         unlink('assets/images/bck_images/' . $row->doc_bck);
 
         $q = $this->Staff_model->delete('tbl_background', $id, 'id_bck');
@@ -337,7 +345,8 @@ class Staff extends CI_Controller
             'unit_staff' => $this->input->post('unit_staff'),
             'ocupation_staff' => $this->input->post('group_occup'),
             'specialty_staff' => $this->input->post('speciality'),
-            'position_staff' => $this->input->post('position')
+            'position_staff' => $this->input->post('position'),
+            'current_situation' => $this->input->post('current_situation')
         );
 
         $lsat_id = $this->Staff_model->update($data, 'tbl_staff', array('user_staff' => $id));

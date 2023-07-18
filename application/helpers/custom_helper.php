@@ -247,6 +247,16 @@ function jefeJem($id)
     return true;
   }
 }
+
+function department_boss($id,$name)
+{
+  $ci = get_instance();
+  $ci->load->model('Correspondence_model');
+  $qy = $ci->Correspondence_model->get_rol(array('name_rol' => $name));
+  if ($qy->jefe_rol == $id) {
+    return true;
+  }
+}
 function remitida($id)
 {
   $ci = get_instance();

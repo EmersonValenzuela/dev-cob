@@ -2,8 +2,11 @@ $(function () {
 	let mybase_url = $("#url_base").val(),
 		id = $("#user_staff").val();
 	$("#id_pr").val(id);
+	$("#id_prs").val(id);
 
-	$("#civil_status, #condition_staff, #group_occup,#type_bck ").select2();
+	$(
+		"#civil_status, #condition_staff, #group_occup, #current_situation "
+	).select2();
 	$("#grade_staff").select2({
 		placeholder: "Buscar Grado",
 		minimumInputLength: 1,
@@ -94,6 +97,9 @@ $(function () {
 				$("#date_named").val(row.named_staff);
 				$("#date_ascent").val(row.ascent_staff);
 				$("#group_occup").val(row.ocupation_staff).trigger("change");
+				$("#current_situation").val(row.current_situation).trigger("change");
+		
+
 				$("#position").val(row.position_staff);
 				$("#grade_staff").append(
 					"<option value='" +
@@ -134,7 +140,7 @@ $(function () {
 		iDisplayLength: 3,
 		columns: [
 			{
-				data: "type_bck",
+				data: "date_bck",
 			},
 			{
 				data: "name_bck",
@@ -163,7 +169,51 @@ $(function () {
 			},
 		],
 	});
-
+	$("#data-disciplinary").DataTable({
+		order: [[3, "desc"]],
+		paging: false,
+		searching: false,
+		language: {
+			sEmptyTable: "Ningún Antecedente",
+			sZeroRecords: "No se encontraron resultados",
+		},
+		ajax: {
+			method: "POST",
+			url: mybase_url + "be/staff/data_table_in",
+			data: { id: id },
+		},
+		iDisplayLength: 3,
+		columns: [
+			{
+				data: "date_bck",
+			},
+			{
+				data: "name_bck",
+			},
+			{
+				data: "doc_bck",
+				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(
+						"<a target='_blank' href='assets/images/bck_images/" +
+							oData.doc_bck +
+							"'>" +
+							oData.doc_bck +
+							"</a>"
+					);
+				},
+			},
+			{
+				data: "id_bck",
+				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(
+						"<button type='button' class='btn btn-danger waves-effect waves-light' OnClick='delete_bck(" +
+							oData.id_bck +
+							")'><i class='fas fa-trash-alt'></i> </button>"
+					);
+				},
+			},
+		],
+	});
 	$("#send_personal").on("submit", (e) => {
 		e.preventDefault();
 		$("#btn_send").attr("disabled", "disabled");
@@ -240,14 +290,57 @@ $(function () {
 				console.error(err.responseText);
 			});
 	});
+	$("#btn_dsc").on("click", (e) => {
+		e.preventDefault();
+
+		let f = $(this);
+		var formData = new FormData(document.getElementById("form_dsc"));
+		formData.append("dato", "valor");
+		$.ajax({
+			url: mybase_url + "be/staff/update_bck",
+			method: "POST",
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: () => {
+				$("#btn_dsc").css("display", "none");
+				$("#btn_predsc").css("display", "block");
+			},
+		})
+			.done((a) => {
+				let json = a.data,
+					id = a.up_id;
+				successMsg(
+					"Antecedente Agregado",
+					"Nuevo Antecedente agregado corretamente",
+					"#ff6849",
+					"success"
+				);
+				$("#form_dsc")[0].reset();
+				$("#doc_dsc").val(null);
+				let table = $("#data-disciplinary").DataTable();
+				table.ajax.reload(null, false);
+			})
+			.always(() => {
+				$("#btn_dsc").css("display", "block");
+				$("#btn_predsc").css("display", "none");
+			})
+			.fail((err) => {
+				console.error(err.responseText);
+			});
+	});
 });
 
 function delete_bck(id) {
 	let mybase_url = $("#url_base").val(),
-		table = $("#data-background").DataTable();
+		table = $("#data-background").DataTable(),
+		table2 = $("#data-disciplinary").DataTable();
 	$.post(mybase_url + "be/staff/delete_bck", { id: id }, "json")
 		.done((i) => {
 			table.ajax.reload(null, false);
+			table2.ajax.reload(null, false);
 			successMsg(
 				"Antecedente Eliminado",
 				"Antecedente Eliminado corretamente",

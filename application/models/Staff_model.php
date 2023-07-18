@@ -97,9 +97,9 @@ class Staff_model extends CI_Model
         $this->db->insert($table, $data);
         return $this->db->insert_id();
     }
-    public function get_data_table($table, $where, $row = null)
+    public function get_data_table($table, $where,$type=null,$row =null)
     {
-        if ($row) {
+        if ($row && $type == null) {
             $this->db->select('*');
             $this->db->from($table);
             $this->db->where($where);
@@ -109,6 +109,7 @@ class Staff_model extends CI_Model
             $this->db->select('*');
             $this->db->from($table);
             $this->db->where($where);
+            $this->db->where($type);
             $query = $this->db->get();
             return $query->result();
         }
