@@ -290,8 +290,13 @@ class Staff extends CI_Controller
     {
         $id = $this->input->post('id');
         $row = $this->Staff_model->get_users(array('user.id_user' => $id));
-        $user = $this->Staff_model->auth_user_login(array('id_user' => $id),'tbl_users');
-        $ubigeo = $this->Staff_model->auth_user_login(array('codigo_ubigeo' => $user->ubigeo_birthday),'sunat_codigoubigeo');
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id), 'tbl_users');
+        $ubigeo = $this->Staff_model->auth_user_login(array('codigo_ubigeo' => $user->ubigeo_birthday), 'sunat_codigoubigeo');
+        if ($ubigeo) :
+            $jsonData['ubigeo'] = $ubigeo->departamento . " - " . $ubigeo->provincia . " - " . $ubigeo->distrito;
+        else :
+            $jsonData['ubigeo'] = false;
+        endif;
 
         $jsonData['row'] = $row;
         $jsonData['name'] = $user->name_user;
@@ -304,7 +309,6 @@ class Staff extends CI_Controller
         $jsonData['address'] = $user->address;
         $jsonData['emergency'] = $user->emergency_cell;
         $jsonData['civil'] = $user->civil_status;
-        $jsonData['ubigeo'] = $ubigeo->departamento . " - " . $ubigeo->provincia . " - " . $ubigeo->distrito;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }

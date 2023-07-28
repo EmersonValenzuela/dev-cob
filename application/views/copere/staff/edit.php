@@ -46,6 +46,21 @@ $session_id = $this->session->userdata('user_id');
                                     <div class="card-body collapse show" id="frwd_form">
                                         <h3 class="card-title">Datos Personales </h3>
                                         <hr>
+                                        <div class="col-md-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="current_situation">Situación Actual</label>
+                                                    <select id="current_situation" name="current_situation" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                                        <option value="Activo">Activo</option>
+                                                        <option value="Licencia">Licencia</option>
+                                                        <option value="Descanso Medico">Descanso Medico</option>
+                                                        <option value="Hospitalización">Hospitalización</option>
+                                                        <option value="Vacaciones">Vacaciones</option>
+                                                        <option value="Suspendido">Suspendido</option>
+                                                        <option value="Retiro">Retiro</option>
+                                                        <option value="Transito Cambio">Transito Cambio</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         <div class="row p-t-20">
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -217,21 +232,6 @@ $session_id = $this->session->userdata('user_id');
                                                 <div class="form-group mb-3">
                                                     <label for="position">Puesto</label>
                                                     <input type="text" class="form-control" name="position" id="position" placeholder="Ingrese Puesto">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-3">
-                                                    <label for="current_situation">Situación Actual</label>
-                                                    <select id="current_situation" name="current_situation" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
-                                                        <option value="Activo">Activo</option>
-                                                        <option value="Licencia">Licencia</option>
-                                                        <option value="Descanso Medico">Descanso Medico</option>
-                                                        <option value="Hospitalización">Hospitalización</option>
-                                                        <option value="Vacaciones">Vacaciones</option>
-                                                        <option value="Suspendido">Suspendido</option>
-                                                        <option value="Retiro">Retiro</option>
-                                                        <option value="Transito Cambio">Transito Cambio</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
