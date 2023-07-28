@@ -146,7 +146,7 @@ function viewReportes($url)
   mail($to, $subject, $message, $headers);
 }
 
-function viewExtension($extension, $name, $id_frwrd,$path)
+function viewExtension($extension, $name, $id_frwrd, $path)
 {
   $files_ext = array(
     'pdf' =>
@@ -176,40 +176,40 @@ function viewExtension($extension, $name, $id_frwrd,$path)
     'sql' =>
     '<i class="fa fa-file-code-o text-primary"></i>'
   );
-  
+
   $img_ext = array(
     'jpg' =>
-    '<img class="img-responsive" src="' . base_url() . 'assets/files/'.$path.'/' . $id_frwrd . '/' . $name . '">',
+    '<img class="img-responsive" src="' . base_url() . 'assets/files/' . $path . '/' . $id_frwrd . '/' . $name . '">',
 
     'png' =>
-    '<img class="img-responsive" src="' . base_url() . 'assets/files/'.$path.'/' . $id_frwrd . '/' . $name . '">',
+    '<img class="img-responsive" src="' . base_url() . 'assets/files/' . $path . '/' . $id_frwrd . '/' . $name . '">',
 
     'jpeg' =>
-    '<img class="img-responsive" src="' . base_url() . 'assets/files/'.$path.'/' . $id_frwrd . '/' . $name . '">',
+    '<img class="img-responsive" src="' . base_url() . 'assets/files/' . $path . '/' . $id_frwrd . '/' . $name . '">',
 
     'svg' =>
-    '<img class="img-responsive" src="' . base_url() . 'assets/files/'.$path.'/' . $id_frwrd . '/' . $name . '">',
+    '<img class="img-responsive" src="' . base_url() . 'assets/files/' . $path . '/' . $id_frwrd . '/' . $name . '">',
   );
 
   if (array_key_exists($extension, $files_ext)) {
     return $files_ext[$extension];
   } elseif (array_key_exists($extension, $img_ext)) {
     return $img_ext[$extension];
-  }else{
+  } else {
     return '<i class="fa fa-file text-primary"></i>';
   }
 }
 
-function status_order($status,$id)
+function status_order($status, $id)
 {
   if ($status == '01') {
-    echo '<button OnClick="edit('.$id.')" class="btn btn-info">Pendiente</button>';
+    echo '<button OnClick="edit(' . $id . ')" class="btn btn-info">Pendiente</button>';
   } elseif ($status == '02') {
-    echo '<button OnClick="edit('.$id.')" class="btn btn-warning">En Proceso</button>';
+    echo '<button OnClick="edit(' . $id . ')" class="btn btn-warning">En Proceso</button>';
   } elseif ($status == '03') {
-    echo '<button OnClick="edit('.$id.')" class="btn btn-success">Finalizado</button>';
+    echo '<button OnClick="edit(' . $id . ')" class="btn btn-success">Finalizado</button>';
   } elseif ($status == '04') {
-    echo '<button OnClick="edit('.$id.')" class="btn btn-danger">Cancelado</button>';
+    echo '<button OnClick="edit(' . $id . ')" class="btn btn-danger">Cancelado</button>';
   }
 }
 
@@ -248,7 +248,7 @@ function jefeJem($id)
   }
 }
 
-function department_boss($id,$name)
+function department_boss($id, $name)
 {
   $ci = get_instance();
   $ci->load->model('Correspondence_model');
@@ -267,6 +267,15 @@ function remitida($id)
   if ($qy) {
     return $qy->id_frwd;
   }
+}
+
+function diminutive_range($name)
+{
+  $ci = get_instance();
+
+  $ci->load->model('Admin_model');
+  $q = $ci->Admin_model->get_range(array('id_range' => $name));
+  return $q->diminutive;
 }
 
 function hasConnection()

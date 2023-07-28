@@ -80,4 +80,17 @@ class Admin_model extends CI_Model
     $this->db->join('tbl_ranges ran', 'ran.id_range = user.range_user', 'LEFT');
     return $this->db->get()->result();
   }
+  function get_range($where)
+  {
+    $this->db->select('*');
+    $this->db->from('tbl_ranges');
+    $this->db->where($where);
+    $this->db->limit(1);
+    $query = $this->db->get();
+    if ($query->num_rows() == 1) {
+      return $query->row();
+    } else {
+      return false;
+    }
+  }
 }

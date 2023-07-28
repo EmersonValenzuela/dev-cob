@@ -212,12 +212,15 @@ $pdf->Cell(145, 4, '', '', 1, 'R', false);
 
 $pdf->Cell(15, 4, '', '', 0, 'C', false);
 $pdf->Cell(20, 4, '', 'LR', 0, 'C', false);
+$pdf->SetFont('Helvetica', 'B', 10);
 
-$pdf->Cell(145, 4, '........................................................................     ..................................................   ', '', 1, 'R', false);
+$pdf->Cell(145, 4, diminutive_range($row->range_user) .' ' .$row->lastname_user . ' '. $row->name_user.'        ......................................   ', '', 1, 'R', false);
+$pdf->SetFont('Helvetica', 'B', 7.5);
+
 $pdf->Cell(15, 4, '', '', 0, 'C', false);
 $pdf->Cell(20, 4, '', 'LR', 0, 'C', false);
 
-$pdf->Cell(145, 4, '(Grado y Nombre)                             Firma)              ', '', 1, 'R', false);
+$pdf->Cell(190, 4, '(Grado y Nombre)                                                     Firma)              ', '', 1, 'C', false);
 $pdf->Cell(15, 0, '', '', 0, 'C', false);
 $pdf->Cell(20, 4, '', 'LR', 0, 'C', false);
 
