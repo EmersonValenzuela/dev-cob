@@ -129,27 +129,14 @@
                                 <i class="fa fa-cogs"></i>
                                 <span class="hide-menu">TABLERO</span>
                             </a>
-                            <?php
-                            if ($this->session->userdata('cod_validation') == "") :
-
-                                $in = "in";
-                                $active = "active";
-
-                            else :
-
-                                $in = "";
-                                $active = "";
-
-                            endif;
-                            ?>
                         </li>
                         <?php if ($this->session->userdata('user_cgi') == 0) { ?>
                             <li id="step6">
-                                <a class="has-arrow waves-effect waves-dark <?= $active ?>" href="javascript:void(0)" aria-expanded="false">
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                                     <i class="fas fa-university"></i>
                                     <span class="hide-menu"> Consultas DAS</span>
                                 </a>
-                                <ul aria-expanded="false" class="collapse <?= $in ?>">
+                                <ul aria-expanded="false" class="collapse">
                                     <a class="waves-effect waves-dark" href="<?= base_url('Das/Lista'); ?>">
                                         Lista Solicitudes DAS
                                     </a>
@@ -179,6 +166,17 @@
                                 </a>
                             </li>
                         <?php } ?>
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="fas fa-university"></i>
+                                <span class="hide-menu">Circulo Militar</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <a class="waves-effect waves-dark" href="<?= base_url('datos-mcsts'); ?>">
+                                    Inscripción CM-STS
+                                </a>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

@@ -76,8 +76,9 @@ $session_id = $this->session->userdata('user_id');
                                         <div class="row p-t-20">
                                             <div class="col-md-4">
                                                 <div class="form-group mb-3">
-                                                    <label for="tb-i">Lugar de Nacimiento <code>*</code></label>
-                                                    <input type="text" class="form-control" name="place_birth" id="place_birth" placeholder="Ingrese Lugar de Nacimiento">
+                                                    <label>Ubigeo de Nacimiento</label>
+                                                    <select name="place_birth" id="place_birth" class="form-control form-select">
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -187,7 +188,7 @@ $session_id = $this->session->userdata('user_id');
                                             <div class="col-md-3">
                                                 <div class="form-group mb-3">
                                                     <label for="unit_staff">Unidad Origen</label>
-                                                    <select id="unit_staff" name="unit_staff" class="form-control form-select" <?= $disabled  ?> style="width: 100%; height:36px;position:fixed">
+                                                    <select id="unit_staff" name="unit_staff" class="form-control form-select" style="width: 100%; height:36px;position:fixed">
                                                     </select>
                                                 </div>
                                             </div>

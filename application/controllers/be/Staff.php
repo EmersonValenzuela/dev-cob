@@ -35,10 +35,10 @@ class Staff extends CI_Controller
 
         );
         $data['scripts'] = array(
+            '<script src="' . base_url() . 'assets/node_modules/select2/dist/js/select2.full.min.js"></script>',
             '<script src="' . base_url() . 'assets/node_modules/moment/moment.js"></script>',
             '<script src="' . base_url() . 'assets/node_modules/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>',
             '<script src="' . base_url() . 'assets/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>',
-            '<script src="' . base_url() . 'assets/node_modules/select2/dist/js/select2.full.min.js"></script>',
             '<script src="' . base_url() . 'dist/js/pages/staff.js"></script>'
 
         );
@@ -290,7 +290,8 @@ class Staff extends CI_Controller
     {
         $id = $this->input->post('id');
         $row = $this->Staff_model->get_users(array('user.id_user' => $id));
-        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id),'tbl_users');
+        $ubigeo = $this->Staff_model->auth_user_login(array('codigo_ubigeo' => $user->ubigeo_birthday),'sunat_codigoubigeo');
 
         $jsonData['row'] = $row;
         $jsonData['name'] = $user->name_user;
@@ -298,6 +299,12 @@ class Staff extends CI_Controller
         $jsonData['dni'] = $this->encryption->decrypt($user->cip_user);
         $jsonData['cip'] = $this->encryption->decrypt($user->dni_user);
         $jsonData['phone'] = $user->phone_user;
+        $jsonData['ubigeo_b'] = $user->ubigeo_birthday;
+        $jsonData['birthday'] = $user->date_birthday;
+        $jsonData['address'] = $user->address;
+        $jsonData['emergency'] = $user->emergency_cell;
+        $jsonData['civil'] = $user->civil_status;
+        $jsonData['ubigeo'] = $ubigeo->departamento . " - " . $ubigeo->provincia . " - " . $ubigeo->distrito;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }
@@ -310,10 +317,10 @@ class Staff extends CI_Controller
         $id_jobb = $this->input->post('id_jobbs');
 
 
-        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id), 'tbl_users');
         $rol = $this->Team_model->get_data(array('id_rol' => $this->input->post('unit_staff')));
 
-        if ($user->rol != '2') :
+        if ($user->rol != '2' || $user->rol != '1') :
             $ro2 = $this->Team_model->get_data(array('id_rol' => $user->rol));
             $array_c = json_decode($ro2->array_int);
             $result = array_diff($array_c, array($id));
@@ -328,14 +335,18 @@ class Staff extends CI_Controller
         $this->Team_model->update($data1, array("id_rol" => $this->input->post('unit_staff')), 'tbl_rol');
         $this->Staff_model->update(array('rol' => $this->input->post('unit_staff')), 'tbl_users', array('id_user' => $id));
 
+        $profile = array(
+            'ubigeo_birthday' => $this->input->post('place_birth'),
+            'date_birthday' => $this->input->post('date_birth'),
+            'address' => $this->input->post('home_address'),
+            'civil_status' => $this->input->post('civil_status'),
+            'emergency_cell' => $this->input->post('emergency_cell')
+        );
+
+        $this->Staff_model->update($profile, 'tbl_users', array('id_user' => $id));
 
 
         $data = array(
-            'place_staff' => $this->input->post('place_birth'),
-            'birthday_staff' => $this->input->post('date_birth'),
-            'address' => $this->input->post('home_address'),
-            'emergency_cell' => $this->input->post('emergency_cell'),
-            'status_staff' => $this->input->post('civil_status'),
             'sons_staff' => $this->input->post('number_children'),
             'condition_staff' => $this->input->post('condition_staff'),
             'hired_staff' => $this->input->post('date_contracted'),
@@ -371,7 +382,7 @@ class Staff extends CI_Controller
         $data['row'] = $this->Staff_model->get_staff_row(array('p.user_staff' => $id));
         $data['jobs']  = $this->Staff_model->get_jobs(array('id_personal' => $id));
         $data['bcks']  = $this->Staff_model->get_bck(array('person_bck' => $id));
-        $user = $this->Staff_model->auth_user_login(array('id_user' => $id));
+        $user = $this->Staff_model->auth_user_login(array('id_user' => $id), 'tbl_users');
         $data['name'] = $user->name_user;
         $data['lastname'] = $user->lastname_user;
         $data['dni'] = $this->encryption->decrypt($user->cip_user);
@@ -379,5 +390,21 @@ class Staff extends CI_Controller
         $data['phone'] = $user->phone_user;
 
         $this->load->view('copere/staff/pdf', $data);
+    }
+
+    public function data_ubigeo()
+    {
+        $val = $_GET['q'];
+        $result = $this->Staff_model->get_ubigeo('sunat_codigoubigeo', $val);
+        if ($result != null) {
+            foreach ($result as $row) {
+                $id = $row->codigo_ubigeo;
+                $text = $row->departamento . " - " . $row->provincia . " - " . $row->distrito;
+                $data[] = array('id' => $id, 'text' => $text);
+            }
+        } else {
+            $data[] = array('id' => 0, 'text' => 'No se enconto Ubigeo');
+        }
+        echo json_encode($data);
     }
 }

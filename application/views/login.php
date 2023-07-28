@@ -47,6 +47,7 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
+
     <section id="wrapper">
         <div class="login-register">
             <div class="login-box card">

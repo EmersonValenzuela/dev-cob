@@ -7,6 +7,27 @@ $(function () {
 	$(
 		"#civil_status, #condition_staff, #group_occup, #current_situation "
 	).select2();
+	$("#place_birth").select2({
+		placeholder: "Buscar Código de Ubigeo",
+		minimumInputLength: 2,
+		ajax: {
+			url: mybase_url + "be/staff/data_ubigeo",
+			dataType: "json",
+			type: "GET",
+			delay: 250,
+			data: function (params) {
+				return {
+					q: params.term,
+				};
+			},
+			processResults: function (data) {
+				return {
+					results: data,
+				};
+			},
+			cache: true,
+		},
+	});
 	$("#grade_staff").select2({
 		placeholder: "Buscar Grado",
 		minimumInputLength: 1,
@@ -85,12 +106,19 @@ $(function () {
 			$("#cip").val(i.cip);
 			$("#dni").val(i.dni);
 			$("#cell_holder").val(i.phone);
-
+			$("#place_birth").append(
+				"<option selected value='" +
+					i.ubigeo_b +
+					"'>" +
+					i.ubigeo +
+					"</option>"
+			);
+			$("#date_birth").val(i.birthday);
+			$("#home_address").val(i.address);
+			$("#civil_status").val(i.civil).trigger("change");
+			$("#emergency_cell").val(i.emergency);
+			
 			row.forEach((row) => {
-				$("#place_birth").val(row.place_staff);
-				$("#date_birth").val(row.birthday_staff);
-				$("#home_address").val(row.address);
-				$("#civil_status").val(row.status_staff).trigger("change");
 				$("#number_children").val(row.sons_staff);
 				$("#condition_staff").val(row.condition_staff).trigger("change");
 				$("#date_contracted").val(row.hired_staff);
@@ -98,7 +126,6 @@ $(function () {
 				$("#date_ascent").val(row.ascent_staff);
 				$("#group_occup").val(row.ocupation_staff).trigger("change");
 				$("#current_situation").val(row.current_situation).trigger("change");
-		
 
 				$("#position").val(row.position_staff);
 				$("#grade_staff").append(

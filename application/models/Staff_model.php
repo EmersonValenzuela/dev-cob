@@ -145,10 +145,10 @@ class Staff_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function auth_user_login($where)
+    public function auth_user_login($where,$table)
     {
         $this->db->select('*');
-        $this->db->from('tbl_users');
+        $this->db->from($table);
         $this->db->where($where);
         $this->db->limit(1);
         $query = $this->db->get();
@@ -190,4 +190,22 @@ class Staff_model extends CI_Model
 
         return $this->db->get()->result();
     }
+    public function get_ubigeo($table, $where)
+    {
+        if ($where) {
+            $this->db->select('*');
+            $this->db->from($table);
+            $this->db->like('codigo_ubigeo', $where);
+            $this->db->or_like('departamento', $where);
+            $this->db->or_like('provincia', $where);
+            $this->db->or_like('distrito', $where);
+            $query = $this->db->get();
+            return $query->result();
+        }
+        $this->db->select('*');
+        $this->db->from($table);
+        return $this->db->get()->result();
+    }
+
+
 }

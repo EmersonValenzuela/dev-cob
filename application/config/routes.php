@@ -159,3 +159,10 @@
 */
     $route['Consulta'] = 'korekenke/consulta';
     $route['enviar-consulta'] = 'korekenke/consulta/enviar';
+
+    /*
+    MCSTS
+*/
+$route['datos-mcsts'] = 'admin/mcsts';
+$route['ficha-mcsts/(:any)'] = 'admin/mcsts/form_pdf/$1';
+
