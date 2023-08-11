@@ -11,14 +11,14 @@ class Team_model extends CI_Model
         return $this->db->insert_id();
     }
 
-        public function update($action, $id, $table)
-        {
-            $this->db->where($id);
-            $this->db->update($table, $action);
-            return $this->db->insert_id();
+    public function update($action, $id, $table)
+    {
+        $this->db->where($id);
+        $this->db->update($table, $action);
+        return $this->db->insert_id();
     }
 
-    public function get_data($where)
+    public function get_data($where = null)
     {
         if ($where) {
             $this->db->select('*');
@@ -43,6 +43,15 @@ class Team_model extends CI_Model
         }
         $this->db->select('*');
         $this->db->from('tbl_neogicates');
+        return $this->db->get()->result();
+    }
+
+    public function get_dresult($where)
+    {
+
+        $this->db->select('*');
+        $this->db->from('tbl_rol');
+        $this->db->where($where);
         return $this->db->get()->result();
     }
 
@@ -86,8 +95,15 @@ class Team_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function get_rol()
-    {        $this->db->select('*');
+    public function get_rol($where = null)
+    {
+        if ($where != null) {
+            $this->db->select('*');
+            $this->db->from('tbl_rol');
+            $this->db->where($where);
+            return $this->db->get()->result();
+        }
+        $this->db->select('*');
         $this->db->from('tbl_rol');
         return $this->db->get()->result();
     }

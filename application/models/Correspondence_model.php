@@ -5,11 +5,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Correspondence_model extends CI_Model
 {
 
-    public function get_rol($where)
+    public function get_rol($where, $table = 'tbl_rol')
     {
         if ($where) {
             $this->db->select('*');
-            $this->db->from('tbl_rol');
+            $this->db->from($table);
             $this->db->where($where);
             $query = $this->db->get();
             return $query->row();
@@ -90,15 +90,35 @@ class Correspondence_model extends CI_Model
         $this->db->where('c.decree', $where);
         return $this->db->get()->result();
     }
-    public function dataForwarded($atr,$where)
+
+    public function data_rcvd($where, $boss, $depart)
     {
         // ubicación JSON online
-            $this->db->select('f.*');
+        if ($boss == true || $depart == 1) {
+            $this->db->select('c.*');
             $this->db->select('d.*');
-            $this->db->from('tbl_forwarded_corr f');
-            $this->db->join('tbl_rol d', 'd.id_rol = f.team_id');
-            $this->db->where($atr, $where);
+            $this->db->from('tbl_received_corr c');
+            $this->db->join('tbl_rol d', 'd.id_rol = c.decree');
+            $this->db->where('c.core_rcvd', $where);
             return $this->db->get()->result();
+        }
+        $this->db->select('c.*');
+        $this->db->select('d.*');
+        $this->db->from('tbl_received_corr c');
+        $this->db->join('tbl_rol d', 'd.id_rol = c.decree');
+        $this->db->where('c.decree', $where);
+        return $this->db->get()->result();
+    }
+
+    public function dataForwarded($atr, $where)
+    {
+        // ubicación JSON online
+        $this->db->select('f.*');
+        $this->db->select('d.*');
+        $this->db->from('tbl_forwarded_corr f');
+        $this->db->join('tbl_rol d', 'd.id_rol = f.team_id');
+        $this->db->where($atr, $where);
+        return $this->db->get()->result();
     }
     public function getFiles($limit, $where)
     {
@@ -144,7 +164,7 @@ class Correspondence_model extends CI_Model
             $this->db->from($table);
             $this->db->where($where);
             $query = $this->db->get();
-            return $query->row();
+            return $query->result();
         }
         $this->db->select('*');
         $this->db->from($table);

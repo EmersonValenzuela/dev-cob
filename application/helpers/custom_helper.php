@@ -5,9 +5,9 @@ if (!function_exists('check_login_user')) {
     $ci = get_instance();
     if ($ci->session->userdata('is_user_login') != TRUE) {
 
-      $array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login');
+      $array_items = array('cip_md5', 'user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login');
 
-      $ci->session->unset_userdata($array_items);
+      $ci->session->sess_destroy();
 
       redirect(base_url());
     }
@@ -62,6 +62,7 @@ if (!function_exists("fecha")) {
     return $fecha;
   }
 }
+
 
 function generate_string($input, $strength)
 {
@@ -257,6 +258,23 @@ function department_boss($id, $name)
     return true;
   }
 }
+function rol_user($id, $where, $table)
+{
+  $ci = get_instance();
+  $ci->load->model('Correspondence_model');
+  $qy = $ci->Correspondence_model->get_rol($where);
+  if ($qy->id_rol == $id) {
+    return true;
+  }
+}
+function office_user($id, $where, $table)
+{
+  $ci = get_instance();
+  $ci->load->model('Correspondence_model');
+  $qy = $ci->Correspondence_model->get_rol($where, $table);
+  return in_array($id, json_decode($qy->members_office));
+}
+
 function remitida($id)
 {
   $ci = get_instance();

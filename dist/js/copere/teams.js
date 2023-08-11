@@ -22,9 +22,11 @@ $(function () {
 			d = $("#d_dp").val(),
 			j = $("#j_dp").val(),
 			js = $("#js_dp").val(),
-			m = $("#m_dp").val();
+			m = $("#m_dp").val(),
+			mcount = m.length;
 		core = $("#core").val();
 		let data = { n: n, d: d, j: j, m: m, js: js, core: core };
+		
 		$.ajax({
 			url: "team/teamIn",
 			type: "post",
@@ -155,7 +157,6 @@ function createTeam() {
 			text: "Primero seleccione a los miembros",
 		})
 	);
-
 	$.ajax({
 		method: "post",
 		url: "team/getUser",
@@ -341,4 +342,3 @@ function deleteTeam(id_rol) {
 		}
 	});
 }
-function prebtn() {}

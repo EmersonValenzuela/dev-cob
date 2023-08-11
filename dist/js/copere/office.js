@@ -3,8 +3,14 @@ $(function () {
 		backdrop: "static",
 		keyboard: false,
 	});
-
-	$(".select2").on("change", () => {
+	$("#btn_close").on("click", () => {
+		$(".select2").empty();
+		$(".boss").empty();
+		$(".department").empty();
+		$("#send_team")[0].reset();
+		$("#mdl_team").modal("hide");
+	});
+	$("#m_dp").on("change", () => {
 		$(".boss").empty();
 		$(".select2 :selected").each(function () {
 			$(".boss").append(
@@ -15,18 +21,77 @@ $(function () {
 			);
 		});
 	});
+	$("#de_dp").on("change", () => {
+		let select = $("#m_dp");
+		$("#m_dp").empty();
+		$(".boss").empty();
+		$(".boss").append(
+			$("<option>", {
+				value: "0",
+				text: "Primero seleccione a los miembros",
+			})
+		);
+		let id_rol = $("#de_dp").val();
+
+		$.ajax({
+			method: "post",
+			data: { id: id_rol },
+			url: "team/getUser",
+			dataType: "json",
+		}).done((data) => {
+			for (let i = 0; i < data.users.length; i++) {
+				let id = data.users[i]["id_user"],
+					depa = data.users[i]["rol"],
+					name = data.users[i]["name_user"],
+					last = data.users[i]["lastname_user"];
+
+				if (depa == 1) {
+				} else if (depa == id_rol && data.users[i]["team_depart"] == "") {
+					select.append(
+						'<option value="' + id + '">' + last + " " + name + "</option>"
+					);
+				}
+			}
+			for (let i = 0; i < data.office.length; i++) {
+				if (id_rol == data.office[i]["rol"]) {
+					let $optgroup = $(
+						'<optgroup label="' + data.office[i]["name_office"] + '">'
+					);
+					$.ajax({
+						method: "post",
+						url: "team/dep_user",
+						dataType: "json",
+						data: { id: data.office[i]["id_office"] },
+					}).done(function (d) {
+						for (let i = 0; i < d.off.length; i++) {
+							let op =
+								'<option disabled value="' +
+								d.off[i]["id_user"] +
+								'">' +
+								d.off[i]["name_user"] +
+								" " +
+								d.off[i]["lastname_user"] +
+								"</option>";
+							$optgroup.append(op);
+						}
+						select.append($optgroup);
+					});
+				}
+			}
+		});
+	});
 
 	$("#btn_send").on("click", (e) => {
 		e.preventDefault();
-		let n = $("#n_dp").val(),
-			d = $("#d_dp").val(),
+		let d = $("#de_dp").val(),
+			n = $("#n_dp").val(),
+			dp = $("#d_dp").val(),
 			j = $("#j_dp").val(),
-			js = $("#js_dp").val(),
 			m = $("#m_dp").val();
-		core = $("#core").val();
-		let data = { n: n, d: d, j: j, m: m, js: js, core: core };
+		let data = { n: n, d: d, j: j, m: m, dp: dp };
+		console.log($("#send_team").serialize());
 		$.ajax({
-			url: "team/teamIn",
+			url: "team/officeIn",
 			type: "post",
 			dataType: "json",
 			data: data,
@@ -40,7 +105,9 @@ $(function () {
 					data.length = 0;
 					$(".select2").empty();
 					$(".boss").empty();
+					$(".department").empty();
 					$("#send_team")[0].reset();
+					$("#mdl_team").modal("hide");
 
 					$("#list_team").append(
 						'<li id="l_' +
@@ -67,14 +134,14 @@ $(function () {
 					);
 
 					successMsg(
-						"Departamento Agregado",
-						"Nuevo departamento agregado corretamente",
+						"Sección Agregado",
+						"Nueva Sección agregado corretamente",
 						"#ff6849",
 						"success"
 					);
 				} else {
 					successMsg(
-						"Departamento ¡No agregado!",
+						"Sección ¡No agregado!",
 						"Error del sistema contactarse con soporte",
 						"#ff6849",
 						"error"
@@ -88,20 +155,17 @@ $(function () {
 				$("#btn_send").attr("disabled", false);
 			});
 	});
-
 	$("#btn_modify").on("click", (e) => {
 		e.preventDefault();
-		let n = $("#n_dp").val(),
-			d = $("#d_dp").val(),
+		let d = $("#de_dp").val(),
+			n = $("#n_dp").val(),
+			dp = $("#d_dp").val(),
 			j = $("#j_dp").val(),
-			js = $("#js_dp").val(),
 			m = $("#m_dp").val(),
 			i = $("#id_r").val();
-		core = $("#core").val();
-
-		let data = { n: n, d: d, j: j, m: m, i: i, js: js, core: core };
+		let data = { n: n, d: d, j: j, m: m, i: i, dp: dp };
 		$.ajax({
-			url: "team/teamUp",
+			url: "team/officeUp",
 			type: "post",
 			dataType: "json",
 			data: data,
@@ -116,14 +180,14 @@ $(function () {
 					$("#send_team")[0].reset();
 					console.log(r.array);
 					successMsg(
-						"Departamento " + n + " Modificado",
-						"Departamento  Modificado corretamente",
+						"Sección " + n + " Modificado",
+						"Sección  Modificado corretamente",
 						"#ff6849",
 						"success"
 					);
 				} else {
 					successMsg(
-						"Departamento ¡No Modificado!",
+						"Sección ¡No Modificado!",
 						"Error del sistema contactarse con soporte",
 						"#ff6849",
 						"error"
@@ -134,17 +198,13 @@ $(function () {
 				console.error(err.responseText);
 			});
 	});
-
-	$("#btn_close").on("click", () => {
-		$(".select2").empty();
-		$(".boss").empty();
-		$("#send_team")[0].reset();
-		$("#mdl_team").modal("hide");
-	});
 });
 
 function createTeam() {
-	let select = $(".select2").select2({
+	let select = $("#m_dp").select2({
+		dropdownParent: $("#mdl_team .modal-body"),
+	});
+	$(".department").select2({
 		dropdownParent: $("#mdl_team .modal-body"),
 	});
 	$("#btn_modify").attr("style", "display:none");
@@ -158,9 +218,21 @@ function createTeam() {
 
 	$.ajax({
 		method: "post",
+		dataType: "json",
 		url: "team/getUser",
 		dataType: "json",
 	}).done((data) => {
+		let rols = data.rols;
+
+		rols.forEach((rol) => {
+			$(".department").append(
+				$("<option>", {
+					value: rol.id_rol,
+					text: rol.name_rol,
+				})
+			);
+		});
+		let id_rol = $(".department").val();
 		for (let i = 0; i < data.users.length; i++) {
 			let id = data.users[i]["id_user"],
 				depa = data.users[i]["rol"],
@@ -168,58 +240,84 @@ function createTeam() {
 				last = data.users[i]["lastname_user"];
 
 			if (depa == 1) {
-			} else if (depa == 2) {
+			} else if (depa == id_rol && data.users[i]["team_depart"] == "") {
 				select.append(
 					'<option value="' + id + '">' + last + " " + name + "</option>"
 				);
 			}
 		}
-		for (let i = 3; i < data.rols.length; i++) {
-			let $optgroup = $('<optgroup label="' + data.rols[i]["name_rol"] + '">');
-			$.ajax({
-				method: "post",
-				url: "team/dep_user",
-				dataType: "json",
-				data: { id: data.rols[i]["id_rol"] },
-			}).done(function (d) {
-				for (let i = 0; i < d.dep.length; i++) {
-					let op =
-						'<option disabled value="' +
-						d.dep[i]["id_user"] +
-						'">' +
-						d.dep[i]["name_user"] +
-						" " +
-						d.dep[i]["lastname_user"] +
-						"</option>";
-					$optgroup.append(op);
-				}
-				select.append($optgroup);
-			});
+		for (let i = 0; i < data.office.length; i++) {
+			if (id_rol == data.office[i]["rol"]) {
+				let $optgroup = $(
+					'<optgroup label="' + data.office[i]["name_office"] + '">'
+				);
+				$.ajax({
+					method: "post",
+					url: "team/dep_user",
+					dataType: "json",
+					data: { id: data.office[i]["id_office"] },
+				}).done(function (d) {
+					for (let i = 0; i < d.off.length; i++) {
+						let op =
+							'<option disabled value="' +
+							d.off[i]["id_user"] +
+							'">' +
+							d.off[i]["name_user"] +
+							" " +
+							d.off[i]["lastname_user"] +
+							"</option>";
+						$optgroup.append(op);
+					}
+					select.append($optgroup);
+				});
+			}
 		}
 	});
 	$("#mdl_team").modal("show");
 }
-function modifyTeam(id_rol) {
+
+function modifyOffice(id_office) {
 	$("#mdl_team").removeClass("zoomOut animated");
 	$("#mdl_team").addClass("zoomIn animated");
 	$.ajax({
 		method: "post",
 		url: "team/getUser",
-		data: { id: id_rol },
+		data: { id: id_office },
 		dataType: "json",
 	}).done((data) => {
 		$("#btn_send").attr("style", "display:none");
 		$("#btn_modify").removeAttr("style", "display:none");
-		$("#id_r").val(id_rol);
-		$("#m_r").val(data.rol["array_int"]);
-		$("#core").val(data.rol["core_rol"]).trigger("change");
-		let select = $(".select2").select2({
+		$("#id_r").val(id_office);
+		$("#m_r").val(data.off["members_office"]);
+		let select = $("#m_dp").select2({
+			dropdownParent: $("#mdl_team .modal-body"),
+		});
+		$(".department").select2({
 			dropdownParent: $("#mdl_team .modal-body"),
 		});
 		$("#mdl_team").modal("show");
-		console.log(data.rol);
-		$("#n_dp").val(data.rol["name_rol"]);
-		$("#d_dp").val(data.rol["descr_rol"]);
+		console.log(data.off);
+		$("#n_dp").val(data.off["name_office"]);
+		$("#d_dp").val(data.off["descrip_office"]);
+		for (let i = 0; i < data.rols.length; i++) {
+			if (data.rols[i]["id_rol"] == data.off["rol"]) {
+				$(".department").append(
+					'<option selected value="' +
+						data.rols[i]["id_rol"] +
+						'">' +
+						data.rols[i]["name_rol"] +
+						"</option>"
+				);
+			} else {
+				$(".department").append(
+					'<option value="' +
+						data.rols[i]["id_rol"] +
+						'">' +
+						data.rols[i]["name_rol"] +
+						"</option>"
+				);
+			}
+		}
 
 		for (let i = 0; i < data.users.length; i++) {
 			let id = data.users[i]["id_user"],
@@ -228,7 +326,7 @@ function modifyTeam(id_rol) {
 				last = data.users[i]["lastname_user"];
 
 			if (depa == 1) {
-			} else if (depa == id_rol) {
+			} else if (data.users[i]["team_depart"] == id_office) {
 				select.append(
 					'<option selected value="' +
 						id +
@@ -238,41 +336,18 @@ function modifyTeam(id_rol) {
 						name +
 						"</option>"
 				);
-			} else if (depa == 2) {
+			} else if (
+				depa == data.off["rol"] &&
+				data.users[i]["team_depart"] == ""
+			) {
 				select.append(
 					'<option value="' + id + '">' + last + " " + name + "</option>"
 				);
 			}
 		}
-		for (let i = 3; i < data.rols.length; i++) {
-			if (data.rols[i]["id_rol"] == id_rol) {
-			} else {
-				let $optgroup = $(
-					'<optgroup label="' + data.rols[i]["name_rol"] + '">'
-				);
-				$.ajax({
-					method: "post",
-					url: "team/dep_user",
-					dataType: "json",
-					data: { id: data.rols[i]["id_rol"] },
-				}).done(function (d) {
-					for (let i = 0; i < d.dep.length; i++) {
-						let op =
-							'<option disabled value="' +
-							d.dep[i]["id_user"] +
-							'">' +
-							d.dep[i]["name_user"] +
-							" " +
-							d.dep[i]["lastname_user"] +
-							"</option>";
-						$optgroup.append(op);
-					}
-					select.append($optgroup);
-				});
-			}
-		}
+
 		$(".select2 :selected").each(function () {
-			if (this.value == data.rol["jefe_rol"]) {
+			if (this.value == data.off["first_office"]) {
 				$("#j_dp").append(
 					$("<option>", {
 						selected: true,
@@ -282,22 +357,6 @@ function modifyTeam(id_rol) {
 				);
 			} else {
 				$("#j_dp").append(
-					$("<option>", {
-						value: this.value,
-						text: this.text,
-					})
-				);
-			}
-			if (this.value == data.rol["subjefe_rol"]) {
-				$("#js_dp").append(
-					$("<option>", {
-						selected: true,
-						value: this.value,
-						text: this.text,
-					})
-				);
-			} else {
-				$("#js_dp").append(
 					$("<option>", {
 						value: this.value,
 						text: this.text,
@@ -307,38 +366,3 @@ function modifyTeam(id_rol) {
 		});
 	});
 }
-function deleteTeam(id_rol) {
-	Swal.fire({
-		title: "¿Estas Seguro?",
-		text: "¡No podrás revertir esto.!",
-		type: "warning",
-		showCancelButton: true,
-		confirmButtonColor: "#3085d6",
-		cancelButtonColor: "#d33",
-		confirmButtonText: "Si, Eliminalo!",
-		cancelButtonText: "No, Cancelar!",
-	}).then((result) => {
-		if (result.value) {
-			$.ajax({
-				method: "post",
-				url: "team/delTeam",
-				data: { id: id_rol },
-				dataType: "json",
-			})
-				.done((data) => {
-					Swal.fire(
-						"Eliminado!",
-						"El departamento ha sido eliminado correctamente.",
-						"success"
-					);
-					$("#l_" + id_rol).attr("style", "display:none");
-					$("#r_" + id_rol).attr("style", "visibility: hidden");
-					$("#h_" + id_rol).attr("style", "display: none");
-				})
-				.fail((err) => {
-					console.error(err.responseText);
-				});
-		}
-	});
-}
-function prebtn() {}

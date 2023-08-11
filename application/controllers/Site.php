@@ -21,13 +21,13 @@ class Site extends CI_Controller
 				redirect(base_url() . 'admin', 'refresh');
 			}
 		} elseif ($this->session->userdata('is_user_login') == "1") {
-			redirect(base_url() . 'be/admin', 'refresh');
+			if ($this->session->userdata('core') == '2') {
+				redirect(base_url() . 'copere', 'refresh');
+			} else {
+				redirect(base_url() . 'be/admin', 'refresh');
+			}
 		}
-		if (hasConnection() == true) {
-			$this->load->view('login');
-		} else {
-			$this->load->view('login2');
-		}
+		$this->load->view('login');
 	}
 
 	public function verifyPass()
@@ -89,8 +89,6 @@ class Site extends CI_Controller
 			} else {
 				redirect(base_url() . 'admin', 'refresh');
 			}
-
-			redirect(base_url() . 'be/admin', 'refresh');
 		} elseif ($rowData->rol != "2") {
 			$data = array(
 				'cip_md5' => $rowData->encrypt_cip,
@@ -119,7 +117,11 @@ class Site extends CI_Controller
 			);
 			$this->session->set_userdata($data);
 
-			redirect(base_url() . 'be/admin', 'refresh');
+			if ($rowData->core == '2') {
+				redirect(base_url() . 'copere', 'refresh');
+			} else {
+				redirect(base_url() . 'be/admin', 'refresh');
+			}
 		} else {
 			redirect(base_url(), 'refresh');
 		}

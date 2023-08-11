@@ -32,9 +32,9 @@
                         <!--End Logo icon -->
                         <!-- Logo text --><span>
                             <!-- dark Logo text -->
-                            <img src="<?= base_url(); ?>/assets/images/2.png" alt="homepage" class="dark-logo" />
+                            <img src="<?= base_url(); ?>/assets/images/4.png" alt="homepage" class="dark-logo" />
                             <!-- Light Logo text -->
-                            <img src="<?= base_url(); ?>/assets/images/1.png" class="light-logo" alt="homepage" />
+                            <img src="<?= base_url(); ?>/assets/images/3.png" class="light-logo" alt="homepage" />
                         </span>
                     </a>
                 </div>
@@ -130,20 +130,51 @@
                     <ul id="sidebarnav">
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="fas fa-database"></i>
-                                <span class="hide-menu">Personal Civil</span>
+                                <i class="fas fa-cogs"></i>
+                                <span class="hide-menu">Administración</span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
                                 <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/agregar-personal'); ?>">
-                                        <i class="fas fa-users"></i>
-                                        &nbsp; Agregar
+                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/departamentos'); ?>">
+                                        <i class="fas fa-sitemap"></i>
+                                        &nbsp; Departamentos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/secciones'); ?>">
+                                        <i class="fas fa-desktop"></i>
+                                        &nbsp; secciones
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/oficinas'); ?>">
+                                        <i class="fas fa-briefcase"></i>
+                                        &nbsp; Oficinas
                                     </a>
                                 </li>
                             </ul>
 
                         </li>
-
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span class="hide-menu">Correspondencias</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/correspondecias-recibidas'); ?>">
+                                        <i class="fas fa-clipboard"></i>
+                                        &nbsp; Recibidos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('COPERE/correspondecias-remitidas'); ?>">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        &nbsp; Remitidas
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
