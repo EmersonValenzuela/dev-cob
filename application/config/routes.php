@@ -163,8 +163,8 @@
     /*
     MCSTS
 */
-    $route['datos-mcsts'] = 'admin/mcsts';
-    $route['ficha-mcsts/(:any)'] = 'admin/mcsts/form_pdf/$1';
+    $route['datos-cmsts'] = 'admin/mcsts';
+    $route['ficha-cmsts/(:any)'] = 'admin/mcsts/form_pdf/$1';
 
     /*
     COPERE TEAM
@@ -175,4 +175,15 @@
     $route['COPERE/secciones'] = 'copere/team/indexOffice';
 
     $route['COPERE/correspondecias-recibidas'] = 'copere/correspondence/received';
+    $route['COPERE/ver-decreto/(:any)'] = 'copere/correspondence/viewDecree/$1';
+    $route['COPERE/archivos-adjuntos-recibido'] = 'copere/correspondence/driveRcvd';
+
+    $route['COPERE/correspondecias-remitidas'] = 'copere/correspondence/forwarded';
+
+    $route['COPERE/archivos-adjuntos'] = 'copere/correspondence/driveFrwrd';
+
+
+
+
+
 

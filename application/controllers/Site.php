@@ -172,8 +172,10 @@ class Site extends CI_Controller
 
 			$data = $this->security->xss_clean($data);
 			$result = $this->Admin_model->insert($data, 'tbl_users');
-			$this->Admin_model->insert(array('user_staff' => $encrypt_cip), 'tbl_staff');
-
+			$this->Admin_model->insert(array('user_staff' => $this->input->post('cip')), 'tbl_staff');
+			for ($i = 0; $i < 3; $i++) :
+				$this->Admin_model->insert(array('id_personal' => $this->input->post('cip')), 'tbl_staff_jobs');
+			endfor;
 
 			if ($result) {
 				$jsonData['status'] = 1;

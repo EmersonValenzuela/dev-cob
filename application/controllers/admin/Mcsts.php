@@ -172,6 +172,6 @@ class Mcsts extends CI_Controller
 
         $data['row'] = $row;
         $data['members'] = $result;
-        $this->load->view('admin/mcsts/pdf',$data);
+        $this->load->view('admin/McSts/pdf',$data);
     }
 }

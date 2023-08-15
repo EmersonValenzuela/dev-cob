@@ -47,10 +47,12 @@ class Staff_model extends CI_Model
     public function get_staff_row($where)
     {
         $this->db->select('p.*');
+        $this->db->select('u.*');
         $this->db->select('g.*');
         $this->db->select('r.*');
         $this->db->select('s.*');
         $this->db->from('tbl_staff p');
+        $this->db->from('tbl_users u', 'u.id_user = p.user_staff');
         $this->db->join('tbl_staff_grade g', 'g.id_staff_grade = p.grade_staff', 'LEFT');
         $this->db->join('tbl_rol r', 'r.id_rol = p.unit_staff', 'LEFT');
         $this->db->join('tbl_specialty s', 's.id_specialty = p.specialty_staff', 'LEFT');
@@ -97,7 +99,7 @@ class Staff_model extends CI_Model
         $this->db->insert($table, $data);
         return $this->db->insert_id();
     }
-    public function get_data_table($table, $where,$type=null,$row =null)
+    public function get_data_table($table, $where, $type = null, $row = null)
     {
         if ($row && $type == null) {
             $this->db->select('*');
@@ -145,7 +147,7 @@ class Staff_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function auth_user_login($where,$table)
+    public function auth_user_login($where, $table)
     {
         $this->db->select('*');
         $this->db->from($table);
@@ -206,6 +208,4 @@ class Staff_model extends CI_Model
         $this->db->from($table);
         return $this->db->get()->result();
     }
-
-
 }

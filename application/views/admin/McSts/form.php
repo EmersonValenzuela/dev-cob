@@ -20,7 +20,7 @@
                             <a href="<?= base_url(); ?>">Inicio </a>
                         </li>
                         <li class="breadcrumb-item active">Datos Adicionales</li>
-                        <a href="<?= base_url('ficha-mcsts/' . $this->session->userdata('user_id') . ''); ?> " target="_blank" class="btn btn-danger d-none d-lg-block m-l-15 text-white"><i class="fa  fa-file-pdf"></i> Descargar</a>
+                        <a href="<?= base_url('ficha-cmsts/' . $this->session->userdata('user_id') . ''); ?> " target="_blank" class="btn btn-danger d-none d-lg-block m-l-15 text-white"><i class="fa  fa-file-pdf"></i> Descargar</a>
                     </ol>
                 </div>
             </div>

@@ -48,6 +48,7 @@ $pdf->Ln();
 $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.3);
 $pdf->SetTextColor(0);
+$pdf->Image($row->img_user, 165, 5, 25);
 
 $pdf->SetFillColor(0, 0, 0);
 
@@ -90,9 +91,9 @@ $pdf->Cell(63, 7, 'DIRECCION DOMICILIARIA', 'LRTB', 1, 'C', true);
 
 $pdf->SetFont('Arial', '', 11);
 
-$pdf->Cell(70, 8, $row->place_staff, 'LRTB', 0, 'C', false);
+$pdf->Cell(70, 8, $row->ubigeo_birthday, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(50, 8, $row->birthday_staff, 'LRTB', 0, 'C', false);
+$pdf->Cell(50, 8, $row->date_birthday, 'LRTB', 0, 'C', false);
 
 $pdf->Cell(63, 8, utf8_decode(strtoupper($row->address)), 'LRTB', 1, 'C', false);
 
@@ -123,7 +124,7 @@ $pdf->Cell(54, 8, $phone, 'LRTB', 0, 'C', false);
 
 $pdf->Cell(55, 8, $row->emergency_cell, 'LRTB', 0, 'C', false);
 
-$pdf->Cell(54, 8,  strtoupper($row->status_staff), 'LRTB', 0, 'C', false);
+$pdf->Cell(54, 8,  strtoupper($row->civil_status), 'LRTB', 0, 'C', false);
 $pdf->Cell(20, 8, $row->sons_staff, 'LRTB', 1, 'C', false);
 
 

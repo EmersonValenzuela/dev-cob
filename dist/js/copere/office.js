@@ -119,7 +119,7 @@ $(function () {
 							n +
 							"</h6>" +
 							'<h6 class="card-subtitle">' +
-							d +
+							dp +
 							"</h6>" +
 							"</div>" +
 							'<button OnClick="deleteTeam(' +

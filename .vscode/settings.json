@@ -16,11 +16,7 @@
         "titleBar.activeBackground": "#42b883",
         "titleBar.activeForeground": "#15202b",
         "titleBar.inactiveBackground": "#42b88399",
-        "titleBar.inactiveForeground": "#15202b99",
-        "editorGroup.border": "#65c89b",
-        "panel.border": "#65c89b",
-        "statusBar.debuggingBackground": "#b84277",
-        "statusBar.debuggingForeground": "#e7e7e7"
+        "titleBar.inactiveForeground": "#15202b99"
     },
     "peacock.color": "#42b883",
     "editor.fontFamily": "'Fira Code', 'Comic Mono',Consolas, 'Courier New', monospace",

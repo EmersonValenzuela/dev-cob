@@ -6,7 +6,6 @@ $url1 = 'assets/images/qr/decree_' .  $row->id_rcvd_cr . '.png';
 $url2 = base_url() . 'be/ver-decreto/' . $row->id_rcvd_cr;
 
 if (!file_exists($url1)) {
-
     qr($url1, $url2, $row->id_rcvd_cr);
 }
 
@@ -132,8 +131,9 @@ $pdf->Cell(90, 6, '______________________________', '', 1, 'C', false);
 
 $pdf->Image($url1,  10,262,-90);
 $pdf->Image($url3,  50,262,-105);
+if(file_exists(base_url($user->signature_user))):
 $pdf->Image(base_url($user->signature_user),  123,228,-205);
-
+endif;
 $pdf->Cell(90, 4, '', '', 0, 'C', false);
 $pdf->Cell(90, 4, 'O- 224534372- O+', '', 1, 'C', false);
 

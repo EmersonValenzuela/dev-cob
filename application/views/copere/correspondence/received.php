@@ -84,7 +84,13 @@
         font-size: 40px;
     }
 </style>
-
+<?php
+if ($boss == 1) {
+    $c = '';
+} else {
+    $c = 'disabled';
+}
+?>
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -119,7 +125,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-end"><button onclick="addCorres()" class="btn btn-success">Agregar Correspondecia</button></div><br>
+                        <?php if ($depart == 1) : ?>
+                            <div class="text-end"><button onclick="addCorres()" class="btn btn-success">Agregar Correspondecia</button></div><br>
+                        <?php endif; ?>
                         <div class="row">
                             <table id="table_rcvd" class="table table-responsive table-striped border">
                                 <thead>
@@ -131,11 +139,11 @@
                                         <th style="min-width: 100px;">FECHA</th>
                                         <th style="min-width: 100px;">CLASIF. </th>
                                         <th style="min-width: 200px;">ASUNTO</th>
-                                        <th style="min-width: 100px;">RECIBIDO POR</th>
+                                        <th style="min-width: 150px;">RECIBIDO POR</th>
                                         <?php if ($depart == true || $boss == 1) { ?>
                                             <th style="min-width: 130px;">DECRETADO</th>
                                         <?php } else { ?>
-                                            <th style="min-width: 130px;">ACCIONES</th>
+                                            <th style="min-width: 200px;">ACCIONES</th>
                                         <?php } ?>
                                         <th style="min-width: 130px;">ESTADO</th>
                                     </tr>
@@ -147,7 +155,7 @@
                                     ?>
                                         <tr id="r<?= $row->id_rcvd_cr ?>" class="tr_data" data-id="<?= $row->id_rcvd_cr ?>">
                                             <td> <button class="btn btn-info" OnClick="viewRcvd(<?= $row->id_rcvd_cr . ", '" . $row->ext_rcvd . "'" ?>)"><i class="fas fa-file-image"></i> <?= str_pad($row->id_rcvd_cr, 3, '0', STR_PAD_LEFT) ?></button>
-                                                <a class="btn btn-primary" href="<?= base_url('be/archivos-adjuntos-recibido?id=' . $row->id_rcvd_cr) ?>"><i class="fas fa-cloud"></i> </a>
+                                                <a class="btn btn-primary" href="<?= base_url('COPERE/archivos-adjuntos-recibido?id=' . $row->id_rcvd_cr) ?>"><i class="fas fa-cloud"></i> </a>
                                             </td>
                                             <td><span id="a_<?= $row->id_rcvd_cr ?>"><?= $row->sender_rcvd ?></span></td>
                                             <td><span id="b_<?= $row->id_rcvd_cr ?>"><?= $row->class_rcvd ?></span></td>
@@ -158,31 +166,42 @@
                                             <td><span id="g_<?= $row->id_rcvd_cr ?>"><?= $row->rcvd_by ?></span></td>
                                             <?php if ($depart == true || $boss == true) { ?>
                                                 <td id="d<?= $row->id_rcvd_cr ?>">
-
                                                     <?php
                                                     if ($row->decree == "0") {
                                                     ?>
-                                                        <button class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree( 0, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"> No Decretado</button>
+                                                        <button <?= $c ?> class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree( 0, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"> No Decretado</button>
                                                     <?php
                                                     } else {
                                                     ?>
-                                                        <button class="btn waves-effect waves-light w-100 btn-primary" OnClick="decree( <?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"><?= $row->name_rol ?></button>
+                                                        <button <?= $c ?> class="btn waves-effect waves-light w-100 btn-primary" OnClick="decree( <?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"><?= $row->name_rol ?></button>
                                                 </td>
                                             <?php
                                                     }
                                             ?>
-                                        <?php }
-                                            if ($this->session->userdata('user_type') == $row->decree) { ?>
-                                            <td><a href="<?= base_url('be/correspondecias-remitidas#' . $row->id_rcvd_cr) ?>" class="btn btn-success">Responder</a> </td>
+                                            <?php }
 
-                                        <?php }
+                                            if ($this->session->userdata('user_type') == $row->decree) {
+                                                if ($row->rcvd_by == 'PREVISIÓN SOCIAL') {
+                                                    if (get_sub_decree($row->id_rcvd_cr) =='') { ?>
+                                                    <td id="prev<?= $row->id_rcvd_cr ?>">
+                                                        <button class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"> No Decretado</button>
+                                                    </td>
+                                                <?php } else {
+                                                ?>
+                                                    <td id="prev<?= $row->id_rcvd_cr ?>">
+                                                        <button class="btn waves-effect waves-light w-100 btn-primary" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"><?= substr(get_sub_decree($row->id_rcvd_cr),0,15) ?></button>
+                                                    </td>
+                                                <?php
+                                                    }
+                                                } else { ?>
+                                                <td><a href="<?= base_url('be/correspondecias-remitidas#' . $row->id_rcvd_cr) ?>" class="btn btn-success">Responder</a> </td>
+                                        <?php
+                                                }
+                                            }
                                             $id_frwrd =  remitida($row->id_rcvd_cr);
-                                            status_received($row->status, $row->id_rcvd_cr, $id_frwrd); ?>
-
+                                            status_received($row->status, $row->id_rcvd_cr, $id_frwrd, 'COPERE'); ?>
                                         </tr>
-
                                     <?php
-
                                     } ?>
                                 </tbody>
                             </table>
@@ -209,9 +228,6 @@
                             </div>
                             <img style="display: none;" class="img-fluid" alt="user" id="view_img" />
                         </center>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="" target="_blank" class="btn-success"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -244,14 +260,20 @@
                             <div class="form-group">
                                 <label id="lbl_user" for="recipient-name" class="form-label"></label>
                                 <select id="slct_decree" name="slct_decree" class="select2 form-control form-select" style="width: 100%; height:36px;position:fixed">
-
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="radio" class="form-check-input" value="1" name="urg" id="urg">
+                                <input type="radio" class="form-check-input" name="urg" id="urg">
                                 <label class="label label-warning" for="urg">Urgente</label>
-                                <input type="radio" class="form-check-input" value="2" name="urg" id="m_urg">
+
+                                <input type="radio" class="form-check-input" name="urg" id="m_urg">
                                 <label class="label label-danger" for="m_urg">Muy Urgente</label>
+
+                                <input type="radio" class="form-check-input" name="urg" id="d_urg">
+                                <label class="label label-info" for="d_urg">En la Fecha</label>
+
+                                <input type="radio" class="form-check-input" name="urg" id="c_urg">
+                                <label class="label label-success" for="c_urg">Conocimiento y Archivo</label>
                             </div>
                             <div class="form-group">
                                 <textarea type="text" class="form-control" name="issue_decree" id="issue_decree" placeholder="Observaciones" style="overflow: hidden;"></textarea>
@@ -259,8 +281,6 @@
                         </form>
                     </div>
                     <div class="modal-footer bg-secondary">
-
-
                         <button type="button" class="btn btn-danger waves-effect" id="close">
                             Cerrar
                         </button>
@@ -381,6 +401,57 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="tooltipmodel" aria-hidden="true" id="add_decree_prev">
+            <div class="modal-dialog modal-dialog-centered zoomIn animated">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary">
+                        <h4 id="title_decree" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body bg-secondary">
+                        <form id="send_decree_prev">
+                            <div class="form-group">
+                                <label id="lbl_user_prev" for="recipient-name" class="form-label"></label>
+                                <select id="slct_rol_prev" name="slct_rol_prev" class="select2 form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                </select>
+                                <input type="hidden" id="id_cr_prev">
+                                <input type="hidden" id="id_sub_decree">
+                                <input type="hidden" id="rol_prev">
+                            </div>
+                            <div class="form-group">
+                                <label id="lbl_user" for="recipient-name" class="form-label"></label>
+                                <select id="slct_decree_prev" name="slct_decree_prev" class="select2 form-control form-select" style="width: 100%; height:36px;position:fixed">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" class="form-check-input" name="urg_prev" id="urg_prev">
+                                <label class="label label-warning" for="urg_prev">Urgente</label>
+
+                                <input type="radio" class="form-check-input" name="urg_prev" id="m_urg_prev">
+                                <label class="label label-danger" for="m_urg_prev">Muy Urgente</label>
+
+                                <input type="radio" class="form-check-input" name="urg_prev" id="d_urg_prev">
+                                <label class="label label-info" for="d_urg_prev">En la Fecha</label>
+
+                                <input type="radio" class="form-check-input" name="urg_prev" id="c_urg_prev">
+                                <label class="label label-success" for="c_urg_prev">Conocimiento y Archivo</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" name="issue_decree_prev" id="issue_decree_prev" placeholder="Observaciones" style="overflow: hidden;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer bg-secondary">
+                        <button type="button" class="btn btn-danger waves-effect" id="close_prev">
+                            Cerrar
+                        </button>
+                        <button id="btn_decree_prev" type="button" class="btn btn-primary waves-effect waves-light text-white">
+                            Modificar rol
+                        </button>
                     </div>
                 </div>
             </div>

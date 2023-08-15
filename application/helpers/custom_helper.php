@@ -5,7 +5,7 @@ if (!function_exists('check_login_user')) {
     $ci = get_instance();
     if ($ci->session->userdata('is_user_login') != TRUE) {
 
-      $array_items = array('cip_md5', 'user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login');
+      $array_items = array('cip_md5', 'user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login', 'core');
 
       $ci->session->sess_destroy();
 
@@ -214,16 +214,16 @@ function status_order($status, $id)
   }
 }
 
-function status_received($status, $id, $id_frwrd)
+function status_received($status, $id, $id_frwrd, $url = "be")
 {
   if ($status == 1) {
     echo '<td><span class="btn btn-danger">No Decretado</span></td>';
   } elseif ($status == 2) {
-    echo '<td><a href="' . base_url('be/ver-decreto/' . $id) . '" class="btn btn-warning" target="_blank">Pendiente</a></td>';
+    echo '<td><a href="' . base_url($url . '/ver-decreto/' . $id) . '" class="btn btn-warning" target="_blank">Pendiente</a></td>';
   } elseif ($status == 3) {
-    echo '<td><a href="' . base_url('be/archivos-adjuntos?id=' . $id_frwrd) . '" class="btn btn-info" target="_blank">En Proceso</a></td>';
+    echo '<td><a href="' . base_url($url . '/archivos-adjuntos?id=' . $id_frwrd) . '" class="btn btn-info" target="_blank">En Proceso</a></td>';
   } elseif ($status == 4) {
-    echo '<td><a href="' . base_url('be/archivos-adjuntos?id=' . $id_frwrd) . '" class="btn btn-success" target="_blank">Finalizado</a></td>';
+    echo '<td><a href="' . base_url($url . '/archivos-adjuntos?id=' . $id_frwrd) . '" class="btn btn-success" target="_blank">Finalizado</a></td>';
   } elseif ($status == 5) {
   }
 }
@@ -272,7 +272,11 @@ function office_user($id, $where, $table)
   $ci = get_instance();
   $ci->load->model('Correspondence_model');
   $qy = $ci->Correspondence_model->get_rol($where, $table);
-  return in_array($id, json_decode($qy->members_office));
+  if ($qy->members_office != null) {
+    return in_array($id, json_decode($qy->members_office));
+  } else {
+    return 0;
+  }
 }
 
 function remitida($id)
@@ -296,15 +300,12 @@ function diminutive_range($name)
   return $q->diminutive;
 }
 
-function hasConnection()
+function get_sub_decree($id)
 {
-  $connected = @fsockopen("es.stackoverflow.com", 80);
-  if ($connected) {
-    $is_conn = true; //Conectado
-    fclose($connected);
-  } else {
-    $is_conn = false; //No conectado
+  $ci = get_instance();
+  $ci->load->model('Correspondence_model');
+  $q = $ci->Correspondence_model->dataOffice(array('decree_id' => $id), 'row');
+  if ($q->name_office != '') {
+    return $q->name_office;
   }
-
-  return $is_conn;
 }

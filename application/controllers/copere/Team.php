@@ -108,6 +108,22 @@ class Team extends CI_Controller
         echo json_encode($jsonData);
     }
 
+    public function delTeam()
+    {
+        $id_rol = $this->input->post('id');
+
+        $rs = $this->Team_model->get_data(array('id_rol' => $id_rol));
+        $m = json_decode($rs->array_int);
+        foreach ($m as $key) {
+            $this->Team_model->update(array('rol' => '2', 'core' => '0'), array("id_user" => $key), 'tbl_users');
+        }
+        $qy = $this->Team_model->delete(array('id_rol' => $id_rol), 'tbl_rol');
+
+        $jsonData['rsp'] = $qy;
+        header('Content-type: application/json; charset=utf-8');
+        echo json_encode($jsonData);
+    }
+
 
     public function indexOffice()
     {

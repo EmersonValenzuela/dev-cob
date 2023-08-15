@@ -172,7 +172,7 @@
                                 <span class="hide-menu">Circulo Militar</span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
-                                <a class="waves-effect waves-dark" href="<?= base_url('datos-mcsts'); ?>">
+                                <a class="waves-effect waves-dark" href="<?= base_url('datos-cmsts'); ?>">
                                     Inscripción CM-STS
                                 </a>
                             </ul>
