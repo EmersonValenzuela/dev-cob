@@ -278,6 +278,17 @@ function office_user($id, $where, $table)
     return 0;
   }
 }
+function department_user($id, $where, $table)
+{
+  $ci = get_instance();
+  $ci->load->model('Correspondence_model');
+  $qy = $ci->Correspondence_model->get_rol($where, $table);
+  if ($qy->array_int != null) {
+    return in_array($id, json_decode($qy->array_int));
+  } else {
+    return 0;
+  }
+}
 
 function remitida($id)
 {

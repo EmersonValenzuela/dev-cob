@@ -164,7 +164,7 @@
                                     <input type="hidden" class="form-control" id="idFamily" name="id_family" value="" placeholder="Ingrese nombres">
 
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="form-label">Nombres del Familiar</label>
                                                 <input type="text" class="form-control input_txt" id="nameFamily" name="name" value="" placeholder="Ingrese nombres">
@@ -199,6 +199,12 @@
                                                 <input name="CCIIFFS" id="CCIIFFS" type="text" class="form-control input_numb" value="" placeholder="Ingrese CCIFFS">
                                             </div>
                                         </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label"> DNI</label>
+                                                <input name="dni" id="dni" type="text" class="form-control input_numb" value="" placeholder="Ingrese DNI">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-12">
@@ -223,6 +229,7 @@
                                                 <th>Parentesco</th>
                                                 <th>Edad</th>
                                                 <th>CCIIFFS</th>
+                                                <th>Dni</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

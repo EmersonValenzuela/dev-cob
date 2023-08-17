@@ -316,41 +316,82 @@
                                     </div>
                                 </a>
                             </div>
-                            <div id="div_family" class="card-body collapse show">
-                                <form id="family_composition"></form>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">Apellidos y Nombres</label>
-                                            <input type="text" class="form-control" name="hospital" id="hospital" placeholder="Ingrese Centro Hospitalario">
+                            <div id="div_family" class="card-body collapse">
+                                <form id="form_family">
+                                    <input type="hidden" class="form-control" id="idFamily" name="id_family" value="" placeholder="Ingrese nombres">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Nombres del Familiar</label>
+                                                <input type="text" class="form-control input_txt" id="nameFamily" name="name" value="" placeholder="Ingrese nombres">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Apellidos del Familiar</label>
+                                                <input type="text" class="form-control input_txt" id="lastNameFamily" name="lastname" value="" placeholder="Ingrese apellidos">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label">Parentesco</label>
+                                                <select name="relationship" id="relationship" class="department m-b-10 form-control form-select" style="width: 100%">
+                                                    <option value="Hijo (a)">Hijo (a)</option>
+                                                    <option value="Esposo (a)">Esposo (a)</option>
+                                                    <option value="Hermano (a)">Hermano (a)</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label class="form-label">Edad</label>
+                                                <input name="age" id="age" type="text" class="form-control input_numb" value="" placeholder="Edad" maxlength="3">
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label"> CCIIFFS</label>
+                                                <input name="CCIIFFS" id="CCIIFFS" type="text" class="form-control input_numb" value="" placeholder="Ingrese CCIFFS">
+                                            </div>
+                                        </div>-->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label"> DNI</label>
+                                                <input name="dni" id="dni" type="text" class="form-control input_numb" value="" placeholder="Ingrese DNI">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">DNI</label>
-                                            <input type="text" class="form-control" name="hospital" id="hospital" placeholder="Ingrese Centro Hospitalario">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control" name="wheelchair" id="wheelchair" placeholder="Lugar de Accidente">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">Parentesco</label>
-                                            <input type="text" class="form-control" name="wheelchair" id="wheelchair" placeholder="Lugar de Accidente">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
+                                    <div class="form-group">
                                         <div class="col-xs-12">
-                                            <button id="btn_require" type="submit" class="btn btn-success float-end  btn-rounded text-white">
-                                                Guardar Requerimientos
+                                            <button id="btn_family" disabled type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                                Añadir Familiar
+                                            </button>
+                                            <button id="btn_pre" style="display: none;" type="button" class="btn btn-success float-end  btn-rounded text-white" disabled>
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Cargando...
+                                            </button>
+                                            <button id="btn_mdf" style="display: none;" type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                                Editar Datos Familiar
                                             </button>
                                         </div>
                                     </div>
+                                </form>
+                                <div class="table-responsive m-t-40">
+                                    <table id="data-family" class="nowrap table table-striped border" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Apellidos y Nombres</th>
+                                                <th>Parentesco</th>
+                                                <th>Edad</th>
+                                                <!--<th>CCIIFFS</th>-->
+                                                <th>Dni</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

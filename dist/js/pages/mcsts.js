@@ -85,6 +85,9 @@ $(function () {
 				data: "cciiffs",
 			},
 			{
+				data: "dni_family",
+			},
+			{
 				data: "id_family",
 				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
 					$(nTd).html(
@@ -197,8 +200,9 @@ function edit_family(id) {
 				$("#lastNameFamily").val(row.lastname_family);
 				$("#relationship").val(row.relationship_family).trigger("change");
 				$("#age").val(row.age_family);
-				$("#CCIIFFS").val(row.cciiffs);
+				/*$("#CCIIFFS").val(row.cciiffs);*/
 				$("#idFamily").val(row.id_family);
+				$("#dni").val(row.dni_family);
 				$("#btn_family").css("display", "none");
 				$("#btn_mdf").css("display", "block");
 			});
@@ -224,9 +228,10 @@ function delete_family(id) {
 			console.error(err.responseText);
 		});
 }
+
 function load_data() {
 	$.post("admin/mcsts/init_data").done((i) => {
-		$("#civil_status").val(i.status).trigger("change");
+		if (i.status) $("#civil_status").val(i.status).trigger("change");
 		if (i.gender) $("#gender").val(i.gender).trigger("change");
 		$("#date_birthday").val(i.date_birthday);
 		$("#urbanization").val(i.urbanization);

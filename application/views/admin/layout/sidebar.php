@@ -160,7 +160,7 @@
                             </li>
                         <?php } else { ?>
                             <li>
-                                <a class="waves-effect waves-dark" href="<?= base_url('admin/datos-adicionales-cgi'); ?>" aria-expanded="false">
+                                <a class="waves-effect waves-dark" href="<?= base_url('datos-adicionales-cgi'); ?>" aria-expanded="false">
                                     <i class="fas fa-id-badge"></i>
                                     <span class="hide-menu">Datos Adicionales</span>
                                 </a>

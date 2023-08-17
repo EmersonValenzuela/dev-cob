@@ -53,6 +53,16 @@ $(function () {
 					}
 				});
 			})
+			.fail((e) => {
+				Swal.fire({
+					title: "Error",
+					text: "No se pudo guardar los datos generales",
+					type: "error",
+				});
+			})
+			.fail((e) => {
+				console.error(e.responseText);
+			})
 			.always(() => {
 				$("#btn_general").removeAttr("disabled");
 				$("#btn_general").html("Guardar Datos Generales");
@@ -86,6 +96,9 @@ $(function () {
 						$("#div_reason").removeClass("show");
 					}
 				});
+			})
+			.fail((e) => {
+				console.error(e.responseText);
 			})
 			.always(() => {
 				$("#btn_reason").removeAttr("disabled");
@@ -121,26 +134,205 @@ $(function () {
 					}
 				});
 			})
+			.fail((e) => {
+				console.error(e.responseText);
+			})
 			.always(() => {
 				$("#btn_require").removeAttr("disabled");
 				$("#btn_require").html("Guardar Requerimientos");
 			});
 	});
-	$("#family_composition").on("submit", (e) => {
+
+	// Family Process
+	let table = $("#data-family").DataTable({
+		caches: true,
+		order: [[3, "desc"]],
+		paging: false,
+		searching: false,
+		language: {
+			sEmptyTable: "No se encontraron familiares",
+			sZeroRecords: "No se encontraron familiares",
+		},
+		ajax: {
+			method: "POST",
+			url: "admin/CGI/data_table",
+		},
+		iDisplayLength: 7,
+		columns: [
+			{
+				render: function (data, type, row) {
+					return row.lastname_family + " " + row.name_family;
+				},
+			},
+			{
+				data: "relationship_family",
+			},
+			{
+				data: "age_family",
+			},
+			/*{
+				data: "cciiffs",
+			},*/
+			{
+				data: "dni_family",
+			},
+			{
+				data: "id_family",
+				fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(
+						"<button type='button' class='btn btn-warning waves-effect waves-light' OnClick='edit_family(" +
+							oData.id_family +
+							")'><i class='fas fa-edit'></i> </button> " +
+							"<button type='button' class='btn btn-danger waves-effect waves-light' OnClick='delete_family(" +
+							oData.id_family +
+							")'><i class='fas fa-trash-alt'></i> </button>"
+					);
+				},
+			},
+		],
+	});
+	$("#form_family input").keyup(function () {
+		var form = $("#form_family").find(':input[type="text"]');
+		var check = checkCampos(form);
+		console.log(check);
+		if (check) {
+			$("#btn_family").prop("disabled", false);
+			$("#btn_mdf").prop("disabled", false);
+		} else {
+			$("#btn_family").prop("disabled", true);
+			$("#btn_mdf").prop("disabled", true);
+		}
+	});
+
+	$("#btn_family").on("click", (e) => {
 		e.preventDefault();
-		$("#btn_family").attr("disabled", "disabled");
-		$("#btn_family").html("Cargando...");
+
+		var formData = new FormData(document.getElementById("form_family"));
+		formData.append("dato", "valor");
+
 		$.ajax({
-			url: "cgi/insert_general",
-			method: "post",
+			url: "admin/CGI/up_cm",
+			method: "POST",
 			dataType: "json",
-			data: $("#require_disability").serialize(),
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: () => {
+				$("#btn_family").css("display", "none");
+				$("#bt_pre").css("display", "block");
+			},
 		})
-			.done((i) => {})
+			.done((i) => {
+				successMsg(
+					"Familiar agregado",
+					"Nuevo familiar agregado corretamente",
+					"#ff6849",
+					"success"
+				);
+				$("#form_family")[0].reset();
+				$("#relationship").val("Hijo (a)").trigger("change");
+
+				table.ajax.reload(null, false);
+			})
+			.fail((e) => {
+				console.log(e.responseText);
+			})
 			.always(() => {
-				$("#btn_family").removeAttr("disabled");
+				$("#btn_family").css("display", "block");
+				$("#btn_family").attr("disabled", "disabled");
+				$("#bt_pre").css("display", "none");
 			});
 	});
 
+	$("#btn_mdf").on("click", (e) => {
+		e.preventDefault();
 
+		let f = $(this);
+		var formData = new FormData(document.getElementById("form_family"));
+		formData.append("dato", "valor");
+
+		$.ajax({
+			url: "admin/CGI/edit_cm",
+			method: "POST",
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: () => {
+				$("#btn_mdf").css("display", "none");
+				$("#bt_pre").css("display", "block");
+			},
+		})
+			.done((i) => {
+				successMsg(
+					"Familiar Editado",
+					"Familiar editado corretamente",
+					"#ff6849",
+					"success"
+				);
+				table.ajax.reload(null, false);
+				$("#form_family")[0].reset();
+				$("#relationship").val("Hijo (a)").trigger("change");
+			})
+			.fail((e) => {
+				console.error(err.responseText);
+			})
+			.always(() => {
+				$("#btn_family").css("display", "block");
+				$("#bt_pre").css("display", "none");
+			});
+	});
 });
+function edit_family(id) {
+	$.post("admin/cgi/get_family", { id: id })
+		.done((i) => {
+			let result = i.result;
+			result.forEach((row) => {
+				$("#nameFamily").val(row.name_family);
+				$("#lastNameFamily").val(row.lastname_family);
+				$("#relationship").val(row.relationship_family).trigger("change");
+				$("#age").val(row.age_family);
+				$("#CCIIFFS").val(row.cciiffs);
+				$("#idFamily").val(row.id_family);
+				$("#dni").val(row.dni_family);
+				$("#btn_family").css("display", "none");
+				$("#btn_mdf").css("display", "block");
+			});
+		})
+		.always(() => {});
+}
+function delete_family(id) {
+	let table = $("#data-family").DataTable();
+	$.post("admin/CGI/delete_family", { id: id })
+		.done((i) => {
+			if ((i.q = true)) {
+				table.ajax.reload(null, false);
+				successMsg(
+					"Datos del familiar Eliminado",
+					"Datos del familiar Eliminado corretamente",
+					"#ff6849",
+					"warning"
+				);
+			}
+		})
+		.fail((e) => {
+			console.error(e.responseText);
+		});
+}
+function checkCampos(obj) {
+	var camposRellenados = true;
+	obj.each(function () {
+		var $this = $(this);
+		if ($this.val().length <= 0) {
+			camposRellenados = false;
+			return false;
+		}
+	});
+	if (camposRellenados == false) {
+		return false;
+	} else {
+		return true;
+	}
+}

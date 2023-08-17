@@ -113,7 +113,7 @@
     /*
     /ROUTES CGI
 */
-    $route['admin/datos-adicionales-cgi'] = 'admin/cgi';
+    $route['datos-adicionales-cgi'] = 'admin/cgi';
     /*
     /ROUTES BE
 */

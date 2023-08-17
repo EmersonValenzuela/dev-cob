@@ -170,11 +170,10 @@
                             </li>
                         <?php }
                         ?>
-
                         <li>
                             <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="fas fa-user-circle"></i>
-                                <span class="hide-menu">Mi Usuario</span>
+                                <i class="fas fa-users"></i>
+                                <span class="hide-menu">DATOS DEPER</span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
                                 <?php
@@ -188,11 +187,19 @@
                                     </li>
                                 <?php } ?>
                                 <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/editar-personal-civil/'.$this->session->userdata('user_id')); ?>">
+                                    <a class="waves-effect waves-dark" href="<?= base_url('be/editar-personal-civil/' . $this->session->userdata('user_id')); ?>">
                                         <i class="fas fa-id-badge"></i>
                                         &nbsp; Datos Adicionales
                                     </a>
                                 </li>
+                                <?php if (department_user($this->session->userdata('user_id'), array('name_rol' => 'DEPER'), 'tbl_rol') == 1) :  ?>
+                                    <li>
+                                        <a class="waves-effect waves-dark" href="<?= base_url('be/lista-personal-civil'); ?>" aria-expanded="false">
+                                            <i class="fas fa-list-alt"></i>
+                                            <span class="hide-menu">Lista Registro Civil</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </li>
                         <li>
@@ -215,40 +222,28 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="fas fa-warehouse"></i>
-                                <span class="hide-menu">SOPORTE DETEL</span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/ordenes-de-servicio'); ?>">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        &nbsp; Ordenes de Servicio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/inspeciones-tecnicas'); ?>">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        &nbsp; Informes Técnicos
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="fas fa-users"></i>
-                                <span class="hide-menu">DATOS DEPER</span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a class="waves-effect waves-dark" href="<?= base_url('be/lista-personal-civil'); ?>" aria-expanded="false">
-                                        <i class="fas fa-list-alt"></i>
-                                        <span class="hide-menu">Lista Registro Civil</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        <?php if (department_user($this->session->userdata('user_id'), array('name_rol' => 'DETEL'), 'tbl_rol') == 1) :  ?>
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="fas fa-warehouse"></i>
+                                    <span class="hide-menu">SOPORTE DETEL</span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li>
+                                        <a class="waves-effect waves-dark" href="<?= base_url('be/ordenes-de-servicio'); ?>">
+                                            <i class="fas fa-clipboard-check"></i>
+                                            &nbsp; Ordenes de Servicio
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="waves-effect waves-dark" href="<?= base_url('be/inspeciones-tecnicas'); ?>">
+                                            <i class="fas fa-clipboard-check"></i>
+                                            &nbsp; Informes Técnicos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

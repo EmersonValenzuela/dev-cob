@@ -24,7 +24,6 @@ class Mcsts extends CI_Controller
             '<link href="' . base_url() . 'assets/node_modules/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">',
             '<script src="' . base_url() . 'assets/node_modules/moment/moment.js"></script>',
             '<link href="' . base_url() . 'dist/css/pages/stylish-tooltip.css" rel="stylesheet">',
-            '<link href="' . base_url() . 'assets/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">',
         );
         $data['scripts'] = array(
             '<script src="' . base_url() . 'assets/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>',
@@ -54,6 +53,7 @@ class Mcsts extends CI_Controller
             'age_family' => $this->input->post('age'),
             'cciiffs' => $this->input->post('CCIIFFS'),
             'relationship_family' => $this->input->post('relationship'),
+            'dni_family' => $this->input->post('dni'),
         );
         $this->McSts_model->insert($data, 'tbl_family_user');
         $jsonData['q'] = $data;
@@ -70,6 +70,8 @@ class Mcsts extends CI_Controller
             'age_family' => $this->input->post('age'),
             'cciiffs' => $this->input->post('CCIIFFS'),
             'relationship_family' => $this->input->post('relationship'),
+            'dni_family' => $this->input->post('dni'),
+
         );
         $this->McSts_model->update($data, array('id_family' => $id), 'tbl_family_user');
         $jsonData['q'] = $data;
@@ -85,7 +87,6 @@ class Mcsts extends CI_Controller
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }
-
     public function data_table()
     {
         $id = $this->session->userdata('user_id');
@@ -172,6 +173,6 @@ class Mcsts extends CI_Controller
 
         $data['row'] = $row;
         $data['members'] = $result;
-        $this->load->view('admin/McSts/pdf',$data);
+        $this->load->view('admin/McSts/pdf', $data);
     }
 }

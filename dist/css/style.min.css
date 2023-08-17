@@ -16384,6 +16384,7 @@ textarea.form-control-lg {
 	border-radius: 0.25rem;
 }
 .form-select {
+	cursor:pointer;
 	display: block;
 	width: 100%;
 	padding: 0.375rem 2.25rem 0.375rem 0.75rem;
@@ -35480,6 +35481,7 @@ ul.list-style-none li a:hover {
 	font-weight: 500;
 }
 .card .card-actions {
+	cursor:pointer;
 	float: right;
 }
 .card .card-actions a {

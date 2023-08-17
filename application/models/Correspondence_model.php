@@ -15,7 +15,7 @@ class Correspondence_model extends CI_Model
             return $query->row();
         }
         $this->db->select('*');
-        $this->db->from('tbl_rol');
+        $this->db->from($table);
         return $this->db->get()->result();
     }
 
@@ -149,7 +149,7 @@ class Correspondence_model extends CI_Model
     }
     function dataOffice($where, $row = null)
     {
-        if($row != null){
+        if ($row != null) {
             $this->db->select('s.*');
             $this->db->select('c.*');
             $this->db->select('d.*');

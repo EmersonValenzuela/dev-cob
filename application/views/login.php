@@ -53,7 +53,7 @@
             <div class="login-box card">
                 <div class="card-body">
                     <div class="form-horizontal form-material" id="loginform">
-                        <img src="assets\images\cob.png" alt="" class="rounded mx-auto d-block" width="35%">
+                        <img src="assets\images\logo-login.webp" alt="" class="rounded mx-auto d-block" width="35%">
                         <br>
                         <h3 class="text-center m-b-20">Inicie Sesión COBIENE</h3>
                         <div class="form-group ">
