@@ -153,9 +153,11 @@ class Correspondence_model extends CI_Model
             $this->db->select('s.*');
             $this->db->select('c.*');
             $this->db->select('d.*');
+            $this->db->select('o.*');
             $this->db->from('tbl_sub_decre s');
             $this->db->join('tbl_received_corr c', 'c.id_rcvd_cr = s.decree_id');
             $this->db->join('tbl_rol d', 'd.id_rol = c.decree');
+            $this->db->join('tbl_office o', 'o.id_office = s.office_decree');
             $this->db->where($where);
             return $this->db->get()->row();
         }

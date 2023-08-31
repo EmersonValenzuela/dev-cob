@@ -1,4 +1,4 @@
-$(function () {
+$(function ($) {
 	"use strict";
 
 	let mybase_url = $("#url_base").val();
@@ -64,6 +64,16 @@ $(function () {
 			location.href = $("#a_bri").data("url");
 		}
 	});
+	$.fn.buttonLoader = (action, id) => {
+		if (action == "start") {
+			$(id).attr("disabled","disabled");
+			$(id).html(
+				'<span class="spinner"><i class="fa fa-spinner fa-spin" title="button-loader"></i></span> Cargando información'
+			);
+		}
+		$(id).removeAttr('disabled');
+
+	};
 });
 var base_url = "http://localhost/dev-cob/";
 

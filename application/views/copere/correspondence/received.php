@@ -126,7 +126,8 @@ if ($boss == 1) {
                 <div class="card">
                     <div class="card-body">
                         <?php if ($depart == 1) : ?>
-                            <div class="text-end"><button onclick="addCorres()" class="btn btn-success">Agregar Correspondecia</button></div><br>
+                            <div class="text-end"><button onclick="addCorres()" class="btn btn-success">Agregar
+                                    Correspondecia</button></div><br>
                         <?php endif; ?>
                         <div class="row">
                             <table id="table_rcvd" class="table table-responsive table-striped border">
@@ -154,12 +155,14 @@ if ($boss == 1) {
                                         $ext = "'" . $row->ext_rcvd . "'";
                                     ?>
                                         <tr id="r<?= $row->id_rcvd_cr ?>" class="tr_data" data-id="<?= $row->id_rcvd_cr ?>">
-                                            <td> <button class="btn btn-info" OnClick="viewRcvd(<?= $row->id_rcvd_cr . ", '" . $row->ext_rcvd . "'" ?>)"><i class="fas fa-file-image"></i> <?= str_pad($row->id_rcvd_cr, 3, '0', STR_PAD_LEFT) ?></button>
+                                            <td> <button class="btn btn-info" OnClick="viewRcvd(<?= $row->id_rcvd_cr . ", '" . $row->ext_rcvd . "'" ?>)"><i class="fas fa-file-image"></i>
+                                                    <?= str_pad($row->id_rcvd_cr, 3, '0', STR_PAD_LEFT) ?></button>
                                                 <a class="btn btn-primary" href="<?= base_url('COPERE/archivos-adjuntos-recibido?id=' . $row->id_rcvd_cr) ?>"><i class="fas fa-cloud"></i> </a>
                                             </td>
                                             <td><span id="a_<?= $row->id_rcvd_cr ?>"><?= $row->sender_rcvd ?></span></td>
                                             <td><span id="b_<?= $row->id_rcvd_cr ?>"><?= $row->class_rcvd ?></span></td>
-                                            <td><span id="c_<?= $row->id_rcvd_cr ?>"><?= $row->indicative_rcvd ?></span></td>
+                                            <td><span id="c_<?= $row->id_rcvd_cr ?>"><?= $row->indicative_rcvd ?></span>
+                                            </td>
                                             <td><span id="d_<?= $row->id_rcvd_cr ?>"><?= $row->date_rcvd ?></span></td>
                                             <td><span id="e_<?= $row->id_rcvd_cr ?>"><?= $row->clasif_rcvd ?></span></td>
                                             <td><span id="f_<?= $row->id_rcvd_cr ?>"><?= $row->issue_rcvd ?></span></td>
@@ -169,7 +172,8 @@ if ($boss == 1) {
                                                     <?php
                                                     if ($row->decree == "0") {
                                                     ?>
-                                                        <button <?= $c ?> class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree( 0, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"> No Decretado</button>
+                                                        <button <?= $c ?> class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree( 0, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)">
+                                                            No Decretado</button>
                                                     <?php
                                                     } else {
                                                     ?>
@@ -182,14 +186,15 @@ if ($boss == 1) {
 
                                             if ($this->session->userdata('user_type') == $row->decree) {
                                                 if ($row->rcvd_by == 'PREVISIÓN SOCIAL') {
-                                                    if (get_sub_decree($row->id_rcvd_cr) =='') { ?>
+                                                    if (get_sub_decree($row->id_rcvd_cr) == '') { ?>
                                                     <td id="prev<?= $row->id_rcvd_cr ?>">
-                                                        <button class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"> No Decretado</button>
+                                                        <button class="btn waves-effect waves-light w-100 btn-danger" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)">
+                                                            No Decretado</button>
                                                     </td>
                                                 <?php } else {
                                                 ?>
                                                     <td id="prev<?= $row->id_rcvd_cr ?>">
-                                                        <button class="btn waves-effect waves-light w-100 btn-primary" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"><?= substr(get_sub_decree($row->id_rcvd_cr),0,15) ?></button>
+                                                        <button class="btn waves-effect waves-light w-100 btn-primary" OnClick="decree_ad(<?= $row->decree ?>, <?= $row->id_rcvd_cr ?>,<?= $row->mode_decree ?>,<?= $row->urg ?>)"><?= substr(get_sub_decree($row->id_rcvd_cr), 0, 15) ?></button>
                                                     </td>
                                                 <?php
                                                     }

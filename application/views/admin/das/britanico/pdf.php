@@ -15,7 +15,7 @@ class PDF extends FPDF
   }
 }
 $path = base_url() . "assets/images/docbritanico/";
-$path2 = base_url() ;
+$path2 = base_url();
 if ($request->person == "2") {
   $fam = $request->relationship . " con Nombre " .  $request->bri_name_fam . " " .  $request->bri_last_fam . " y CIF " . $request->bri_cift_fam;
 } elseif ($request->person == "1") {
@@ -73,12 +73,16 @@ $pdf->Cell(180, 5, ' Lima, ' . fecha($request->bri_create_date), '', 1, 'R', fal
 if ($request->person == "2") {
   $pdf->Ln();
   $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 167, 40, 19);
+  if (exif_imagetype($request->signature_user)) {
+    $pdf->Image(base_url() . $request->signature_user, 145, 167, 40, 19);
+  }
 } else {
   $pdf->Ln();
   $pdf->Ln();
   $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 160, 40, 19);
+  if (exif_imagetype(base_url() . $request->signature_user)) {
+    $pdf->Image(base_url() . $request->signature_user, 145, 160, 40, 19);
+  }
 }
 $pdf->Cell(180, 7, ' ..............................................', '', 1, 'R', false);
 $pdf->Cell(180, 7, '                 Firma              ', '', 1, 'R', false);
@@ -118,7 +122,9 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetFillColor(169, 189, 207);
 
 $pdf->Cell(190, 5, utf8_decode(' Copia de Liquidación de Haberes del Titular'), 'LRTB', 1, 'C', true);
-$pdf->Image($path . $request->bri_settlement,  27, 40, 160, 180);
+if (exif_imagetype($path . $request->bri_settlement)) {
+  $pdf->Image($path . $request->bri_settlement,  27, 40, 160, 180);
+}
 
 $pdf->AddPage();
 
@@ -126,10 +132,14 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetFillColor(169, 189, 207);
 $pdf->Cell(190, 5, 'Copia de CIP y DNI Titular', 'LRTB', 1, 'C', true);
 
+if (exif_imagetype(base_url($request->dni_image_user))) {
 
-$pdf->Image($path2 . $request->dni_image_user, 30, 30, 156, 90);
-$pdf->Image($path2 . $request->cip_image_user, 30, 140, 156, 90);
+  $pdf->Image(base_url($request->dni_image_user), 30, 30, 156, 90);
+}
+if (exif_imagetype(base_url($request->cip_image_user))) {
 
+  $pdf->Image(base_url($request->cip_image_user), 30, 140, 156, 90);
+}
 if ($request->person == "2") {
   $pdf->AddPage();
 
@@ -137,9 +147,14 @@ if ($request->person == "2") {
   $pdf->SetFillColor(169, 189, 207);
   $pdf->Cell(190, 5, 'Copia de CIP y DNI Familiar', 'LRTB', 1, 'C', true);
 
+  if (exif_imagetype(base_url($request->bri_cif_fam))) {
 
-  $pdf->Image($path . $request->bri_cif_fam, 30, 30, 156, 90);
-  $pdf->Image($path . $request->bri_dni_fam, 30, 140, 156, 90);
+    $pdf->Image(base_url($request->bri_cif_fam), 30, 30, 156, 90);
+  }
+  if (exif_imagetype(base_url($request->bri_dni_fam))) {
+
+    $pdf->Image(base_url($request->bri_dni_fam), 30, 140, 156, 90);
+  }
 }
 
 $pdf->Output();

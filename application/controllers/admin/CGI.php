@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class CGI extends CI_Controller
 {
 
-
     public function __construct()
     {
 
@@ -17,8 +16,18 @@ class CGI extends CI_Controller
     public function index()
     {
 
-        $data['title'] = 'Datos Adicionales';
+        $md5 = $this->session->userdata('user_id');
+        $cgi = $this->CGI_model->row_data('tbl_cgi_person', array('user_cgi' => $md5));
+        $user = $this->CGI_model->row_data('tbl_users', array('id_user' => $md5));
 
+        if ($cgi == null) {
+            $this->CGI_model->insert(array('user_cgi' => $md5), 'tbl_cgi_person');
+        }
+
+        $data['ub'] = string_ubigeo($user->ubigeo_birthday);
+        $data['uh'] = string_ubigeo($user->ubigeo_housing);
+
+        $data['title'] = 'Datos Adicionales';
         $data['range'] = $this->Das_model->auth_row('tbl_ranges', array('id_range' => $this->session->userdata('user_range')));
 
         $data['links'] = array(
@@ -50,21 +59,29 @@ class CGI extends CI_Controller
     }
     public function insert_general()
     {
+        $data_user = array(
+            'ubigeo_birthday' => $this->input->post('ubigeo_birthday'),
+            'ubigeo_housing' => $this->input->post('ubigeo_home'),
+            'date_birthday' => $this->input->post('birthday'),
+            'home_phone' => $this->input->post('home_phone'),
+            'civil_status' => $this->input->post('civil_status'),
+        );
+
+        $this->CGI_model->update($data_user, array('id_user' => $this->session->userdata('user_id')), 'tbl_users');
+
+
         $data = array(
-            "user_cip" => $this->session->userdata("cip_md5"),
-            "birthday_cgi" => $this->input->post("birthdate"),
-            "home_phone" => $this->input->post("home_phone"),
             "current_ocupation" => $this->input->post("current_oc"),
             "conadis_did" => $this->input->post("conadis_did"),
             "level_education" => $this->input->post("level_education"),
-            "civil_status" => $this->input->post("civil_status"),
             "size_cgi" => $this->input->post("size"),
             "cash_type" => $this->input->post("type_cash"),
-            "ubigeous_birth" => $this->input->post("ubigeo_birthday"),
-            "housing_ubigeo" => $this->input->post("ubigeo_home"),
-            "high_resolution" => $this->input->post("cgi_date"),
+            "high_resolution" => $this->input->post("high_resolution"),
             "situation_cgi" => $this->input->post("situation")
         );
+
+        $this->CGI_model->update($data, array('user_cgi' => $this->session->userdata('user_id')), 'tbl_cgi_person');
+
         $jsonData['data'] = $data;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
@@ -72,17 +89,35 @@ class CGI extends CI_Controller
     public function insert_reason()
     {
         $data = array(
-            'user_cip' => $this->session->userdata("cip_md5"),
             'causal' => $this->input->post('tb_ca'),
             'event' => $this->input->post('events_ej'),
             'invalidity_date' => $this->input->post('invalidate'),
             'accident_site' => $this->input->post('accident_site'),
             'diagnosis' => $this->input->post('tb_di'),
         );
+        $this->CGI_model->update($data, array('user_cgi' => $this->session->userdata('user_id')), 'tbl_cgi_person');
+
         $jsonData = $data;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }
+
+    public function insert_requirements()
+    {
+        $data = array(
+            'ubig_require' => $this->input->post('ubigeo_atention'),
+            'hospital_require' => $this->input->post('hospital'),
+            'weelchair' => $this->input->post('wheelchair'),
+            'region_military	' => $this->input->post('rrmm'),
+            'prosthesis' => $this->input->post('prosthesis'),
+        );
+        $this->CGI_model->update($data, array('user_cgi' => $this->session->userdata('user_id')), 'tbl_cgi_person');
+
+        $jsonData = $data;
+        header('Content-type: application/json; charset=utf-8');
+        echo json_encode($jsonData);
+    }
+
 
     // FAMILY CODE
     public function up_cm()
@@ -164,6 +199,22 @@ class CGI extends CI_Controller
         $result = $this->CGI_model->result_data('tbl_family_user', array('id_family' => $id));
 
         $jsonData['result'] = $result;
+        header('Content-type: application/json; charset=utf-8');
+        echo json_encode($jsonData);
+    }
+    public function loadPage()
+    {
+        $ubig_r = "";
+        $md5 = $this->session->userdata('user_id');
+        $cgi = $this->CGI_model->result_data('tbl_cgi_person', array('user_cgi' => $md5));
+        $user = $this->CGI_model->result_data('tbl_users', array('id_user' => $md5));
+        foreach ($cgi as $key => $value) {
+            $ubig_r = $value->ubig_require;
+        }
+
+        $jsonData['ur'] = string_ubigeo($ubig_r);
+        $jsonData['cgi'] = $cgi;
+        $jsonData['user'] = $user;
         header('Content-type: application/json; charset=utf-8');
         echo json_encode($jsonData);
     }

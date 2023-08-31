@@ -19,9 +19,10 @@
 		"titleBar.inactiveForeground": "#15202b99"
 	},
 	"peacock.color": "#42b883",
-	"editor.fontFamily": "Fira Code",
+	"editor.fontFamily": "JetBrains Mono, Cascadia Code,Fira Code",
 	"editor.fontLigatures": true,
 	"intelephense.diagnostics.undefinedClassConstants": true,
 	"intelephense.diagnostics.undefinedProperties": false,
-	"files.autoSave": "afterDelay"
+	"files.autoSave": "afterDelay",
+	"editor.fontSize": 14
 }

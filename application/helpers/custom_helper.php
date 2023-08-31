@@ -14,6 +14,15 @@ if (!function_exists('check_login_user')) {
   }
 }
 
+function file_exists_safe($file)
+{
+  if (!$fd = fopen($file, 'xb')) {
+    return true;  // the file already exists
+  }
+  fclose($fd);  // the file is now created, we don't need the file handler
+  return false;
+}
+
 if (!function_exists("fecha")) {
   function fecha($fecha)
   {
@@ -72,19 +81,15 @@ function generate_string($input, $strength)
     $random_character = $input[mt_rand(0, $input_length - 1)];
     $random_string .= $random_character;
   }
-
   return $random_string;
 }
-
 if (!function_exists("qr")) {
   function qr($url, $url2, $id)
   {
     require('phpqrcode/qrlib.php');
-
     QRcode::png($url2, $url, QR_ECLEVEL_L, 3, 0);
   }
 }
-
 if (!function_exists('get_random_password')) {
   function get_random_password($chars_min = 6, $chars_max = 8, $use_upper_case = false, $include_numbers = false, $include_special_chars = false)
   {
@@ -94,24 +99,20 @@ if (!function_exists('get_random_password')) {
       $selection .= "1234567890";
     }
     if ($include_special_chars) {
-      $selection .= "!@\"#$%&[]{}?|";
+      $selection .= "!@\" #$%&[]{}?|";
     }
-
     $password = "";
     for ($i = 0; $i < $length; $i++) {
       $current_letter = $use_upper_case ? (rand(0, 1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
-      $password .=  $current_letter;
+      $password .= $current_letter;
     }
-
     return $password;
   }
 }
-
 if (!function_exists('check_user')) {
   function check_user()
   {
     $ci = get_instance();
-
     if ($ci->session->userdata('user_type') != 1 || $ci->session->userdata('user_type') != 26) {
 
       return true;
@@ -129,18 +130,22 @@ function viewReportes($url)
 
   $message = "
   <html>
-  <head><meta charset='gb18030'>
-      <title>Consultas COEDE</title>
+
+  <head>
+    <meta charset='gb18030'>
+    <title>Consultas COEDE</title>
   </head>
+
   <body>
-  <h3>Actualemente en la plataforma de convenios del COBIENE, han solicitado un tramite, Ingrese a la siguiente URL: " . base_url() . $url . "</h3><br>
-  <center>
-  <img src='https://tramites.cobiene.mil.pe/assets/images/cob.png' width='50%' heigth='50%'>
-  </center>
+    <h3>Actualemente en la plataforma de convenios del COBIENE, han solicitado un tramite, Ingrese a la siguiente URL: " . base_url() . $url . "</h3><br>
+    <center>
+      <img src='https://tramites.cobiene.mil.pe/assets/images/cob.png' width='50%' heigth='50%'>
+    </center>
   </body>
+
   </html>
   ";
-  $headers =  'MIME-Version: 1.0' . "\r\n";
+  $headers = 'MIME-Version: 1.0' . "\r\n";
   $headers .= 'From: CONVENIOS COBIENE <contacto@cobiene.mil.pe>' . "\r\n";
   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
@@ -315,8 +320,20 @@ function get_sub_decree($id)
 {
   $ci = get_instance();
   $ci->load->model('Correspondence_model');
-  $q = $ci->Correspondence_model->dataOffice(array('decree_id' => $id), 'row');
-  if ($q->name_office != '') {
+  $q = $ci->Correspondence_model->dataOffice(array('s.decree_id' => $id), 'row');
+  if ($q->name_office != null) {
     return $q->name_office;
   }
+}
+
+function string_ubigeo($id_ubigeo = null)
+{
+  $ci = get_instance();
+
+  $ci->load->model('CGI_model');
+  $q = $ci->CGI_model->row_data('sunat_codigoubigeo', array('codigo_ubigeo' => $id_ubigeo));
+  if ($q != null) {
+    return '<option value="' . $q->codigo_ubigeo . '">' . $q->departamento . " - " . $q->provincia . " - " . $q->distrito . '</option>';
+  }
+  return false;
 }

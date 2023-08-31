@@ -1,13 +1,16 @@
 $(function () {
 	"use strict";
 
-	$("#tb_ca, #tb_di").autoResize();
+	loadPage();
 
-	$("#ubigeo_birthday, #ubigeo_home, #ubigeo_atencion").select2({
+	$("#tb_ca, #tb_di").autoResize();
+	$("#level_education, #civil_status, #type_cash, #events_ej").select2();
+
+	$("#ubigeo_birthday, #ubigeo_home, #ubigeo_atention").select2({
 		placeholder: "Buscar Código de Ubigeo",
 		minimumInputLength: 2,
 		ajax: {
-			url: "cgi/data_ubigeo",
+			url: "admin/cgi/data_ubigeo",
 			dataType: "json",
 			type: "GET",
 			delay: 250,
@@ -27,13 +30,14 @@ $(function () {
 
 	$("#general_data").on("submit", (e) => {
 		e.preventDefault();
-		$("#btn_general").attr("disabled", "disabled");
-		$("#btn_general").html("Cargando...");
 		$.ajax({
-			url: "cgi/insert_general",
+			url: "admin/CGI/insert_general",
 			method: "post",
 			dataType: "json",
 			data: $("#general_data").serialize(),
+			beforeSend: () => {
+				$("#btn_general").buttonLoader("start", "#btn_general");
+			},
 		})
 			.done((i) => {
 				Swal.fire({
@@ -50,39 +54,36 @@ $(function () {
 						$("#events_ej").focus();
 						$("#icon_general").removeClass("ti-minus").addClass("ti-plus");
 						$("#div_general").removeClass("show");
+						$("#icon_reason").removeClass("ti-plus").addClass("ti-minus");
+						$("#div_reason").addClass("show");
 					}
 				});
 			})
 			.fail((e) => {
-				Swal.fire({
-					title: "Error",
-					text: "No se pudo guardar los datos generales",
-					type: "error",
-				});
-			})
-			.fail((e) => {
 				console.error(e.responseText);
+				failMsg();
 			})
 			.always(() => {
-				$("#btn_general").removeAttr("disabled");
 				$("#btn_general").html("Guardar Datos Generales");
+				$("#btn_general").buttonLoader("stop", "#btn_general");
 			});
 	});
 
 	$("#disability_reason").on("submit", (e) => {
 		e.preventDefault();
-		$("#btn_reason").attr("disabled", "disabled");
-		$("#btn_reason").html("Cargando...");
 		$.ajax({
-			url: "cgi/insert_reason",
+			url: "admin/CGI/insert_reason",
 			method: "post",
 			dataType: "json",
 			data: $("#disability_reason").serialize(),
+			beforeSend: () => {
+				$("#btn_reason").buttonLoader("start", "#btn_reason");
+			},
 		})
 			.done((i) => {
 				Swal.fire({
-					title: "Datos generales guardados",
-					text: "Los datos generales han sido guardados, Puede darle al botón de siguiente si aún no ha rellenado el Requerimientos.",
+					title: "Motivo de Invalidez",
+					text: "El Movito de Invalidez ha sido guardado, Puede darle al botón de siguiente si aún no ha rellenado los requerimientos.",
 					type: "success",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
@@ -94,6 +95,8 @@ $(function () {
 						$("#ubigeo_atencion").focus();
 						$("#icon_reason").removeClass("ti-minus").addClass("ti-plus");
 						$("#div_reason").removeClass("show");
+						$("#icon_require").removeClass("ti-plus").addClass("ti-minus");
+						$("#div_require").addClass("show");
 					}
 				});
 			})
@@ -101,25 +104,27 @@ $(function () {
 				console.error(e.responseText);
 			})
 			.always(() => {
-				$("#btn_reason").removeAttr("disabled");
 				$("#btn_reason").html("Guardar Motivo de Invalidez");
+				$("#btn_general").buttonLoader("stop", "#btn_general");
 			});
 	});
 
 	$("#require_disability").on("submit", (e) => {
 		e.preventDefault();
-		$("#btn_require").attr("disabled", "disabled");
-		$("#btn_require").html("Cargando...");
+
 		$.ajax({
-			url: "cgi/insert_general",
+			url: "admin/CGI/insert_requirements",
 			method: "post",
 			dataType: "json",
 			data: $("#require_disability").serialize(),
+			beforeSend: () => {
+				$("#btn_require").buttonLoader("start", "#btn_require");
+			},
 		})
 			.done((i) => {
 				Swal.fire({
-					title: "Datos generales guardados",
-					text: "Los datos generales han sido guardados, Puede darle al botón de siguiente si aún no ha rellenado el Motivo de Invalidez.",
+					title: "Requerimientos guardados",
+					text: "Los requerimientos han sido guardados, Puede darle al botón de siguiente si aún no ha ingresado a un familiar puede dar click a siguiente.",
 					type: "success",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
@@ -128,9 +133,11 @@ $(function () {
 					confirmButtonText: "Siguiente",
 				}).then((result) => {
 					if (result.value) {
-						$("#hospital").focus();
+						$("#id_family").focus();
 						$("#icon_require").removeClass("ti-minus").addClass("ti-plus");
 						$("#div_require").removeClass("show");
+						$("#icon_family").removeClass("ti-plus").addClass("ti-minus");
+						$("#div_family").addClass("show");
 					}
 				});
 			})
@@ -138,7 +145,7 @@ $(function () {
 				console.error(e.responseText);
 			})
 			.always(() => {
-				$("#btn_require").removeAttr("disabled");
+				$("#btn_require").buttonLoader("stopt", "#btn_require");
 				$("#btn_require").html("Guardar Requerimientos");
 			});
 	});
@@ -336,3 +343,48 @@ function checkCampos(obj) {
 		return true;
 	}
 }
+
+var loadPage = function () {
+	$.ajax({
+		url: "admin/CGI/loadPage",
+		method: "POST",
+		dataType: "json",
+	}).done((a) => {
+		let cgi = a.cgi,
+			user = a.user;
+		console.log(user);
+		cgi.forEach((c) => {
+			$("#current_oc").val(c.current_ocupation);
+			$("#conadis_did").val(c.conadis_did);
+			$("#level_education").val(c.level_education).trigger("change");
+			$("#size").val(c.size_cgi).trigger("change");
+			$("#type_cash").val(c.cash_type).trigger("change");
+			$("#high_resolution").val(c.high_resolution).trigger("change");
+			$("#situation").val(c.situation_cgi).trigger("change");
+			$("#events_ej").val(c.event).trigger("change");
+			$("#invalidate").val(c.invalidity_date);
+			$("#accident_site").val(c.accident_site);
+			$("#tb_ca").val(c.causal);
+			$("#tb_di").val(c.diagnosis);
+			$("#hospital").val(c.hospital_require);
+			$("#wheelchair").val(c.weelchair);
+			$("#rrmm").val(c.region_military);
+			$("#prosthesis").val(c.prosthesis);
+			if (a.ur) {
+				$("#ubigeo_atention").append(a.ur);
+			}
+		});
+		user.forEach((u) => {
+			$("#home_phone").val(u.phone_user);
+			$("#birthday").val(u.date_birthday);
+			$("#civil_status").val(u.civil_status).trigger("change");
+		});
+	});
+};
+var failMsg = function () {
+	Swal.fire({
+		title: "Error",
+		text: "No se pudo guardar los Datos, Contactese con Soporte",
+		type: "error",
+	});
+};

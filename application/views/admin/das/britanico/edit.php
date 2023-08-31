@@ -29,7 +29,7 @@
                         <div class="col-12">
 
 
-                            <form action="<?= base_url('editar-solicitud-britanico'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form_das" action="<?= base_url('editar-solicitud-britanico'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">SOLICITUD PARA TARIFA PREFERENCIAL EN EL INSTITUTO BRITANICO </h4>
@@ -231,7 +231,7 @@
                                 <div class="offset-sm-10 col-md-2">
                                     <input type="hidden" name="id_bri" value="<?= $r->id_bri ?>">
 
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR CAMBIOS5</button>
+                                    <button id="submit_send" type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR CAMBIOS5</button>
                                 </div>
                             </form>
 

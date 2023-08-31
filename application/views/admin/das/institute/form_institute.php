@@ -27,19 +27,17 @@
                     <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-12">
-
-
-                            <form action="<?= base_url('guardar-registro-instituto'); ?>" method="post" enctype="multipart/form-data">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">SOLICITUD PARA TARIFA PREFERENCIAL EN INSTITUTO - ACADEMIRA</h4>
+                            <form id="form_das" action="<?= base_url('guardar-registro-instituto'); ?>" method="post" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">SOLICITUD PARA TARIFA PREFERENCIAL EN INSTITUTO - ACADEMIRA</h4>
+                                    </div>
+                                    <div class="card-body" style="text-align: right;">
+                                        <label for=""><strong>TITULAR </strong></label>
+                                        <input type="checkbox" class="js-switch" data-color="#7F9E47" data-size="small" id="test" name="person" />
+                                        <label for=""><strong> FAMILIAR</strong></label>
+                                    </div>
                                 </div>
-                                <div class="card-body" style="text-align: right;">
-                                    <label for=""><strong>TITULAR </strong></label>
-                                    <input type="checkbox" class="js-switch" data-color="#7F9E47" data-size="small" id="test" name="person"/>
-                                    <label for=""><strong> FAMILIAR</strong></label>
-                                </div>
-                            </div>
                                 <div class="card">
                                     <div class="card-header text-white bg-info">
                                         <b>Datos Titular</b>
@@ -78,8 +76,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Grado</label>
-                                                    <input name="range" type="text" class="form-control" placeholder="" value="<?= $range->name_range?>" disabled>
-                                                    <input name="range_user" type="hidden" class="form-control" placeholder="" value="<?= $range->id_range?>">
+                                                    <input name="range" type="text" class="form-control" placeholder="" value="<?= $range->name_range ?>" disabled>
+                                                    <input name="range_user" type="hidden" class="form-control" placeholder="" value="<?= $range->id_range ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -228,7 +226,7 @@
                                                 <div class="card center">
                                                     <div class="card-body">
                                                         <h4 class="card-title">Copia CIF (Familiar)</h4>
-                                                        <input type="file" name="ins_cif_fam" id="input-file-now1" class="dropify"  />
+                                                        <input type="file" name="ins_cif_fam" id="input-file-now1" class="dropify" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,7 +234,7 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <h4 class="card-title">Copia de DNI (Familiar)</h4>
-                                                        <input type="file" name="ins_dni_fam" id="input-file-now1" class="dropify"  />
+                                                        <input type="file" name="ins_dni_fam" id="input-file-now1" class="dropify" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,8 +243,8 @@
                                     </div>
                                 </div>
                                 <div class="offset-sm-10 col-md-2">
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
-                                </div>                           
+                                    <button id="submit_send" type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
+                                </div>
                             </form>
 
                         </div>
@@ -276,8 +274,6 @@
         <!-- ============================================================== -->
 
         <script>
-
-
             var checkbox = document.getElementById('test');
             checkbox.addEventListener("change", validaCheckbox, false);
 

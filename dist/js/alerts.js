@@ -1,6 +1,8 @@
 !(function ($) {
 	"use strict";
 
+
+
 	var SweetAlert = function () {};
 
 	//examples
@@ -17,8 +19,7 @@
 				confirmButtonText: "¡Sí, elimínalo!",
 			}).then((result) => {
 				if (result.value) {
-				    document.form_u.submit();
-
+					document.form_u.submit();
 				}
 			});
 		});

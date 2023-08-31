@@ -37,8 +37,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">Registros DAS</h4>
                                 <h6 class="card-subtitle">Sus Solicitudes DAS</h6>
-                                <div class="table-responsive m-t-40">
-                                    <table id="myTable_wrapper" class="table table-striped border">
+                                <div class="m-t-40">
+                                    <table id="tbl_das" class="table table-striped border">
                                         <thead>
                                             <tr>
                                                 <th style="display: none;"></th>

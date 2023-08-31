@@ -38,7 +38,8 @@ class Das extends CI_Controller
 			'<script src="' . base_url() . 'buttons/1.5.1/js/buttons.html5.min.js"></script>',
 			'<script src="' . base_url() . 'buttons/1.5.1/js/buttons.print.min.js"></script>',
 			'<script src="' . base_url() . 'dist/js/datatable.js"></script>',
-			'<script src="' . base_url() . 'dist/js/alerts.js"></script>'
+			'<script src="' . base_url() . 'dist/js/alerts.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>'
 
 		);
 		$this->template->load('admin/template', 'admin/das/list_doc', $data);
@@ -55,6 +56,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {
@@ -264,6 +266,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {
@@ -506,6 +509,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {
@@ -544,6 +548,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {
@@ -793,6 +798,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {
@@ -943,6 +949,7 @@ class Das extends CI_Controller
 		);
 		$data['scripts'] = array(
 			'<script src="' . base_url() . 'assets/node_modules/switchery/dist/switchery.min.js"></script>',
+			'<script src="' . base_url() . 'dist/js/das.js"></script>',
 			'<script> $(function () {
 				var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
 				$(".js-switch").each(function () {

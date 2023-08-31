@@ -29,7 +29,7 @@
                         <div class="col-12">
 
 
-                            <form action="<?= base_url('guardar-registro-britanico'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form_das" action="<?= base_url('guardar-registro-britanico'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">SOLICITUD PARA TARIFA PREFERENCIAL EN EL INSTITUTO BRITANICO </h4>
@@ -230,7 +230,7 @@
                                     </div>
                                 </div>
                                 <div class="offset-sm-10 col-md-2">
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
+                                    <button id="submit_send" type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
                                 </div>
                             </form>
 

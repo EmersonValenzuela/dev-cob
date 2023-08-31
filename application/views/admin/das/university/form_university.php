@@ -29,7 +29,7 @@
                         <div class="col-12">
 
 
-                            <form action="<?= base_url('guardar-registro-universidad'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form_das" action="<?= base_url('guardar-registro-universidad'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">SOLICITUD PARA RECATEGORIZACIÓN EN UNIVERSIDAD</h4>
@@ -275,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="offset-sm-10 col-md-2">
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
+                                    <button type="submit" id="submit_send" class="btn waves-effect waves-light w-100 btn-success text-white">ENVIAR</button>
                                 </div>
                             </form>
 

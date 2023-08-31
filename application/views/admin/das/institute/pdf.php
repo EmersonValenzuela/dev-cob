@@ -15,9 +15,9 @@ class PDF extends FPDF
   }
 }
 $path = base_url() . "assets/images/docInstitute/";
-$path2 = base_url() . "";
+$path2 = base_url() . "/";
 if ($request->person == "2") {
-  $fam = $request->relationship . " con Nombre " .  $request->ins_name_fam . " " .  $request->ins_last_fam. " y CIF " . $request->ins_cift_fam;
+  $fam = $request->relationship . " con Nombre " .  $request->ins_name_fam . " " .  $request->ins_last_fam . " y CIF " . $request->ins_cift_fam;
 } elseif ($request->person == "1") {
   $fam = "Persona";
 }
@@ -72,16 +72,18 @@ $pdf->Ln();
 $pdf->Cell(180, 5, ' Lima, ' . fecha($request->ins_create_date), '', 1, 'R', false);
 
 
-
-if ($request->person == "2") {
-  $pdf->Ln();
-  $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 174, 40, 19);
-} else {
-  $pdf->Ln();
-  $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 167, 40, 19);
+if (exif_imagetype(base_url() . $request->signature_user)) {
+  if ($request->person == "2") {
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Image(base_url() . $request->signature_user, 145, 174, 40, 19);
+  } else {
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Image(base_url() . $request->signature_user, 145, 167, 40, 19);
+  }
 }
+
 
 $pdf->Cell(180, 7, ' ..............................................', '', 1, 'R', false);
 $pdf->Cell(180, 7, '                 Firma              ', '', 1, 'R', false);
@@ -112,9 +114,12 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetFillColor(169, 189, 207);
 $pdf->Cell(190, 5, 'Copia de CIP y DNI Titular', 'LRTB', 1, 'C', true);
 
-
-$pdf->Image($path2 . $request->cip_image_user, 30, 30, 156, 90);
-$pdf->Image($path2 . $request->dni_image_user, 30, 140, 156, 90);
+if (exif_imagetype($path2 . $request->cip_image_user)) {
+  $pdf->Image($path2 . $request->cip_image_user, 30, 30, 156, 90);
+}
+if (exif_imagetype(base_url($request->dni_image_user))) {
+  $pdf->Image($path2 . $request->dni_image_user, 30, 140, 156, 90);
+}
 
 if ($request->person == "2") {
   $pdf->AddPage();

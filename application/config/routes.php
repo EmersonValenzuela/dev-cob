@@ -87,6 +87,8 @@
     /RUTAS DAS
 */
 
+    $route['Das/Lista'] = 'admin/das';
+
     $route['Das/universidad'] = 'admin/das/university';
     $route['guardar-registro-universidad'] = 'admin/das/addUniversity';
     $route['das/pdf-universidad/(:any)'] = 'admin/das/pdf_university/$1';
@@ -109,6 +111,8 @@
     $route['das/editar-solicitud-britanico/(:any)'] = 'admin/das/editBritanico/$1';
     $route['editar-solicitud-britanico'] = 'admin/das/editBri';
     $route['eliminar-solicitud-britanico'] = 'admin/das/deleteBri';
+
+
 
     /*
     /ROUTES CGI
@@ -181,9 +185,3 @@
     $route['COPERE/correspondecias-remitidas'] = 'copere/correspondence/forwarded';
 
     $route['COPERE/archivos-adjuntos'] = 'copere/correspondence/driveFrwrd';
-
-
-
-
-
-

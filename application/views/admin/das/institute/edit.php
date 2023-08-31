@@ -29,7 +29,7 @@
                         <div class="col-12">
 
 
-                            <form action="<?= base_url('editar-solicitud-instituto'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form_das" action="<?= base_url('editar-solicitud-instituto'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">SOLICITUD PARA TARIFA PREFERENCIAL EN INSTITUTO - ACADEMIRA</h4>
@@ -259,7 +259,7 @@
                                 <div class="offset-sm-10 col-md-2">
                                     <input type="hidden" name="id_ins" value="<?= $r->id_ins ?>">
 
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR CAMBIOS</button>
+                                    <button id="submit_send" type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR CAMBIOS</button>
                                 </div>
                             </form>
 

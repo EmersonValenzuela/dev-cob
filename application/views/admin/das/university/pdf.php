@@ -18,7 +18,7 @@ class PDF extends FPDF
 $url = 'assets/images/qr/uni' .  $request->id_univ . '.png';
 $url2 = base_url() . 'das/pdf-universidad/' . $request->id_univ;
 
-if (!file_exists($url)) {
+if (!exif_imagetype($url)) {
 
   qr($url, $url2, $request->id_univ);
 }
@@ -81,11 +81,15 @@ $pdf->Cell(180, 5, ' Lima, ' . fecha($request->uni_create_date), '', 1, 'R', fal
 if ($request->person == "2") {
   $pdf->Ln();
   $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 164, 40, 19);
+  if (exif_imagetype(base_url() . $request->signature_user)) {
+    $pdf->Image(base_url() . $request->signature_user, 145, 164, 40, 19);
+  }
 } else {
   $pdf->Ln();
   $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 145, 40, 19);
+  if (exif_imagetype(base_url() . $request->signature_user)) {
+    $pdf->Image(base_url() . $request->signature_user, 145, 145, 40, 19);
+  }
 }
 
 $pdf->Cell(180, 7, ' ..............................................', '', 1, 'R', false);
@@ -124,7 +128,7 @@ $pdf->Cell(201, 5, utf8_decode('02 Copias de la ultima boleta de pago de la Univ
 $pdf->Cell(201, 5, utf8_decode('02 Copias de CIP y DNI (Titular)'), '', 1, '', false);
 
 $pdf->Cell(201, 5, utf8_decode('02 Copias de CIF y DNI (Familiar)'), '', 1, '', false);
-$pdf->Image($url,  170,262,-90);
+$pdf->Image($url,  170, 262, -90);
 
 
 $pdf->AddPage();
@@ -141,10 +145,10 @@ if ($request->type_process == "1") {
   $pdf->Cell(190, 5, 'Copia de Constancia de Ingreso', 'LRTB', 1, 'C', true);
   $pdf->Image($path . $request->uni_settlement,  27, 40, 160, 180);
 } else {
-  $pdf->Cell(190, 5, 'Copia de Consolidado de Notas (último ciclo)', 'LRTB', 1, 'C', true);
+  $pdf->Cell(190, 5,  utf8_decode('Copia de Consolidado de Notas (último ciclo)'), 'LRTB', 1, 'C', true);
   $pdf->Image($path . $request->uni_grades,  27, 40, 160, 180);
 }
-$pdf->Image($url,  170,262,-90);
+$pdf->Image($url,  170, 262, -90);
 
 
 $pdf->AddPage();
@@ -157,7 +161,8 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->Ln();
 
 $pdf->Image($path . $request->uni_tuition, 27, 40, 160, 180);
-$pdf->Image($url,  170,262,-90);
+
+$pdf->Image($url,  170, 262, -90);
 
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 10);
@@ -165,9 +170,13 @@ $pdf->SetFillColor(169, 189, 207);
 
 $pdf->Cell(190, 5, 'Copia de CIP y DNI Titular', 'LRTB', 1, 'C', true);
 
-$pdf->Image($path2 . $request->dni_image_user, 30, 30, 156, 90);
-$pdf->Image($path2 . $request->cip_image_user, 30, 140, 156, 90);
-$pdf->Image($url,  170,262,-90);
+if(exif_imagetype(base_url($request->dni_image_user))) {
+  $pdf->Image(base_url($request->dni_image_user), 30, 30, 156, 90);
+}
+if (exif_imagetype($path2 . $request->cip_image_user)) {
+  $pdf->Image($path2 . $request->cip_image_user, 30, 140, 156, 90);
+}
+$pdf->Image($url,  170, 262, -90);
 
 
 
@@ -178,10 +187,13 @@ if ($request->person == "2") {
   $pdf->SetFillColor(169, 189, 207);
   $pdf->Cell(190, 5, 'Copia de CIP y DNI Familiar', 'LRTB', 1, 'C', true);
 
-  $pdf->Image($path . $request->uni_cif_fam, 30, 30, 156, 90);
-  $pdf->Image($path . $request->uni_dni_fam, 30, 140, 156, 90);
-  $pdf->Image($url,  170,262,-90);
-
+  if (exif_imagetype($path . $request->uni_cif_fam)) {
+    $pdf->Image($path . $request->uni_cif_fam, 30, 30, 156, 90);
+  }
+  if (exif_imagetype($path . $request->uni_dni_fam)) {
+    $pdf->Image($path . $request->uni_dni_fam, 30, 140, 156, 90);
+  }
+  $pdf->Image($url,  170, 262, -90);
 }
 
 $pdf->Output();

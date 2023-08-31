@@ -29,7 +29,7 @@
                         <div class="col-12">
 
 
-                            <form action="<?= base_url('editar-solicitud-universidad'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form_das" action="<?= base_url('editar-solicitud-universidad'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">SOLICITUD PARA RECATEGORIZACIÓN EN UNIVERSIDAD</h4>
@@ -303,7 +303,7 @@
                                 </div>
                                 <input type="hidden" name="id_univ" value="<?= $r->id_univ ?>">
                                 <div class="offset-sm-10 col-md-2">
-                                    <button type="submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR</button>
+                                    <button id="submit_send type=" submit" class="btn waves-effect waves-light w-100 btn-success text-white">GUARDAR</button>
                                 </div>
                             </form>
 

@@ -54,7 +54,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="form-label">Fecha de Nacimiento</label>
-                                                <input name="birthdate" id="birthdate" type="date" class="form-control">
+                                                <input name="birthday" id="birthday" type="date" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -75,12 +75,13 @@
                                             <div class="form-group">
                                                 <label class="form-label">Grado de Instrucción</label>
                                                 <select name="level_education" id="level_education" class="form-control form-select">
-                                                    <option>--Grado de Instrucción--</option>
+                                                    <option value="">--Grado de Instrucción--</option>
                                                     <option value="Inicial">Inicial</option>
                                                     <option value="Primaria">Primaria</option>
                                                     <option value="Secundaria">Secundaria</option>
                                                     <option value="Superior Tecnológico">Superior Tecnológico</option>
-                                                    <option value="Superior Universitario">Superior Universitario</option>
+                                                    <option value="Superior Universitario">Superior Universitario
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -88,7 +89,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Estado Civil</label>
                                                 <select name="civil_status" id="civil_status" class="form-control form-select">
-                                                    <option>--Estado Civil--</option>
+                                                    <option value="">--Estado Civil--</option>
                                                     <option value="Soltero">Soltero (a)</option>
                                                     <option value="Casado">Casado (a)</option>
                                                     <option value="Viudo">Viudo (a)</option>
@@ -102,7 +103,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Talla</label>
                                                 <select name="size" id="size" class="form-control form-select">
-                                                    <option>--Tallas--</option>
+                                                    <option value="">--Tallas--</option>
                                                     <option value="XS">XS</option>
                                                     <option value="S">S</option>
                                                     <option value="M">M</option>
@@ -116,7 +117,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Tipo de Efectivo</label>
                                                 <select name="type_cash" id="type_cash" class="form-control form-select">
-                                                    <option>--Tipo de Efectivo--</option>
+                                                    <option value="">--Tipo de Efectivo--</option>
                                                     <option value="Oficial">Oficial</option>
                                                     <option value="Tecnico">Tecnico</option>
                                                     <option value="Suboficial">Suboficial</option>
@@ -130,6 +131,11 @@
                                             <div class="form-group">
                                                 <label class="form-label">Ubigeo de Nacimiento</label>
                                                 <select name="ubigeo_birthday" id="ubigeo_birthday" class="select2 form-control form-select">
+                                                    <?php
+                                                    if ($ub) {
+                                                        echo $ub;
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -137,18 +143,23 @@
                                             <div class="form-group">
                                                 <label class="form-label">Ubigeo de Vivienda</label>
                                                 <select name="ubigeo_home" id="ubigeo_home" class="select2 form-control form-select">
+                                                    <?php
+                                                    if ($uh) {
+                                                        echo $uh;
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="form-label">Resolución Alta al CGI</label>
-                                                <input name="cgi_date" id="cgi_date" type="text" class="form-control" placeholder="Ingresar Fecha de Inscripción">
+                                                <input name="high_resolution" id="high_resolution" type="text" class="form-control" placeholder="Ingresar Resolución">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Situación</label>
                                                 <input name="situation" id="situation" type="text" class="form-control" placeholder="Ingresar Situación">
@@ -157,7 +168,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-12">
-                                            <button id="btn_general" type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                            <button id="btn_general" type="submit" class="btn btn-success float-end  btn-rounded text-white has-spinner">
                                                 Guardar datos generales
                                             </button>
                                         </div>
@@ -177,20 +188,21 @@
                             <div class="card-header text-white bg-info">
                                 <a class="text-white" data-action="collapse"><b>MOTIVO DE INVALIDEZ</b>
                                     <div class="card-actions">
-                                        <i id="icon_reason" class="ti-minus"></i>
+                                        <i id="icon_reason" class="ti-plus"></i>
                                     </div>
                                 </a>
                             </div>
-                            <div id="div_reason" class="card-body collapse show">
+                            <div id="div_reason" class="card-body collapse">
                                 <form id="disability_reason">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="form-label">Evento</label>
-                                                <select name="events_ej" id="events_ej" class="form-control form-select">
-                                                    <option>--Eventos--</option>
+                                                <select name="events_ej" id="events_ej" class="form-control form-select" style="width: 100% Important!;">
+                                                    <option value="">--Eventos--</option>
                                                     <option value="Conflicto de Cenepa">Conflicto de Cenepa</option>
-                                                    <option value="Acciones de Terrorismo">Acciones de Terrorismo</option>
+                                                    <option value="Acciones de Terrorismo">Acciones de Terrorismo
+                                                    </option>
                                                     <option value="Cordillera del Cóndor">Cordillera del Cóndor</option>
                                                     <option value="Cuanición">Cuanición</option>
                                                     <option value="Campaña de 1933">Campaña de 1933</option>
@@ -202,7 +214,8 @@
                                             <div class="form-group">
                                                 <label class="form-label">Fecha de Invalidez </label><a class="mytooltip text-end" href="javascript:void(0)">
                                                     <i class="fas fa-info-circle"></i><span class="tooltip-content5"><span class="tooltip-text3"><span class="tooltip-inner2">Howdy, Ben!<br />
-                                                                There are 13 unread messages in your inbox.</span></span></span></a>
+                                                                There are 13 unread messages in your
+                                                                inbox.</span></span></span></a>
                                                 <input type="date" class="form-control" name="invalidate" id="invalidate">
                                             </div>
                                         </div>
@@ -229,7 +242,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-12">
-                                            <button id="btn_reason" type="submit" class="btn btn-success float-end  btn-rounded text-white">
+                                            <button id="btn_reason" type="submit" class="btn btn-success float-end  btn-rounded text-white has-spinner">
                                                 Guardar Motivo de Invalidez
                                             </button>
                                         </div>
@@ -249,17 +262,17 @@
                             <div class="card-header text-white bg-info">
                                 <a class="text-white" data-action="collapse"><b>REQUERIMIENTOS DEL DISCAPACITADO</b>
                                     <div class="card-actions">
-                                        <i id="icon_require" class="ti-minus"></i>
+                                        <i id="icon_require" class="ti-plus"></i>
                                     </div>
                                 </a>
                             </div>
-                            <div id="div_require" class="card-body collapse show">
+                            <div id="div_require" class="card-body collapse">
                                 <form id="require_disability">
                                     <div class="row">
                                         <div class="col-md-4 col-lg-4 col-sm-4">
                                             <div class="form-group">
                                                 <label class="form-label">Ubigeo Req. de atención</label>
-                                                <select name="ubigeo_atencion" id="ubigeo_atencion" class="form-control form-select">
+                                                <select name="ubigeo_atention" id="ubigeo_atention" class="form-control form-select" style="width: 100% Important!;">
                                                 </select>
                                             </div>
                                         </div>
