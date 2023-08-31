@@ -149,7 +149,7 @@ $(function () {
 			})
 			.always(() => {
 				$("#btn_family").css("display", "block");
-				$("#btn_family").attr("disabled","disabled");
+				$("#btn_family").attr("disabled", "disabled");
 				$("#bt_pre").css("display", "none");
 			});
 	});
@@ -200,7 +200,7 @@ function edit_family(id) {
 				$("#lastNameFamily").val(row.lastname_family);
 				$("#relationship").val(row.relationship_family).trigger("change");
 				$("#age").val(row.age_family);
-				/*$("#CCIIFFS").val(row.cciiffs);*/
+				$("#CCIIFFS").val(row.cciiffs);
 				$("#idFamily").val(row.id_family);
 				$("#dni").val(row.dni_family);
 				$("#btn_family").css("display", "none");
