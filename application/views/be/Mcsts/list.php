@@ -32,16 +32,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="table-responsive m-t-40">
-                                        <table id="data-inspection" class="table table-striped border">
+                                        <table id="data-cmsts" class="table table-striped border">
                                             <thead>
                                                 <tr>
-                                                    <th>N°</th>
                                                     <th> Apellidos y Nombre </th>
                                                     <th> CIP </th>
                                                     <th> DNI </th>
-                                                    <th>Unidad</th>
-                                                    <th>Grado</th>
-                                                    <th>Especialidad</th>
+                                                    <th> Situación Actual </th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>

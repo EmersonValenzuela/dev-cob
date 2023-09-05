@@ -126,17 +126,26 @@
                                                 <input name="address" id="address" type="text" class="form-control" placeholder="Ingresar Dirección">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="form-label">Celular de Emergencia </label>
                                                 <input name="emergency" id="emergency" type="text" class="form-control" placeholder="Ingresar Celular de Emergencia">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label">Actualmente se encuentra></label>
+                                                <select name="isActive" id="isActive" class="form-control form-select">
+                                                    <option value="1">Activo</option>
+                                                    <option value="0">Inactivo</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-12">
                                             <button id="btn_general" type="submit" class="btn btn-success float-end  btn-rounded text-white">
-                                                Guardar datos generales
+                                                Enviar Solicitud de Inscripción
                                             </button>
                                         </div>
                                     </div>

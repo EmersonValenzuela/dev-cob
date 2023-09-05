@@ -80,15 +80,12 @@
                                     </li>
                                     <li>
                                         <div class="message-center">
-                                            <!-- Message -->
                                             <a href="javascript:void(0)">
                                                 <div class="btn btn-danger btn-circle text-white"><i class="fa fa-user"></i></div>
                                                 <div class="mail-contnet">
                                                     <h5> Mi Perfil</h5>
                                                 </div>
                                             </a>
-
-                                            <!-- Message -->
                                             <a href="<?= base_url('cerrar-session'); ?>">
                                                 <div class="btn btn-info btn-circle text-white"><i class="fas fa-power-off"></i></div>
                                                 <div class="mail-contnet">
@@ -244,6 +241,20 @@
                                 </ul>
                             </li>
                         <?php endif; ?>
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="fas fa-warehouse"></i>
+                                <span class="hide-menu">DATOS CMSTS</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a class="waves-effect waves-dark" href="<?= base_url('Lista-CMSTS'); ?>">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        &nbsp; Lista Solicitudes CMSTS
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

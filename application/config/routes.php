@@ -169,6 +169,13 @@
 */
     $route['datos-cmsts'] = 'admin/mcsts';
     $route['ficha-cmsts/(:any)'] = 'admin/mcsts/form_pdf/$1';
+    $route['Lista-CMSTS'] = 'be/cmsts';
+    $route['PDF-CMSTS/(:any)'] = 'be/cmsts/pdf_cmsts/$1';
+    $route['PDF-CMSTS-ACTIVO/(:any)'] = 'be/cmsts/pdf_active/$1';
+    $route['PDF-CMSTS-INACTIVO/(:any)'] = 'be/cmsts/pdf_inactive/$1';
+
+
+
 
     /*
     COPERE TEAM

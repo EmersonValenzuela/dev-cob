@@ -154,6 +154,8 @@ class Mcsts extends CI_Controller
             'address' => $this->input->post('address'),
             'gender' => $this->input->post('gender'),
             'emergency_cell' => $this->input->post('emergency'),
+            'cmsts' => 1,
+            'isActive' => $this->input->post('isActive')
         );
 
         $this->McSts_model->update($data, array('id_user' => $id), 'tbl_users');
